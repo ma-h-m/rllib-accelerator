@@ -1,0 +1,22 @@
+Rank   Experiment                                         Sparsity   Reward     Retention 
+-----------------------------------------------------------------------------------------------
+1      magnitude_weight_iterative_sparsity25              25.0       495.59     114.9     %
+2      magnitude_weight_iterative_sparsity60              60.0       484.91     112.4     %
+3      fisher_neuron_oneshot_before_sparsity25            25.0       484.62     112.3     %
+4      fisher_neuron_iterative_sparsity85                 84.4       475.84     110.3     %
+5      magnitude_neuron_iterative_sparsity25              25.0       474.93     110.1     %
+6      fisher_neuron_iterative_sparsity50                 50.0       467.00     108.2     %
+7      fisher_neuron_iterative_sparsity60                 59.4       458.13     106.2     %
+8      fisher_neuron_iterative_sparsity75                 75.0       454.25     105.3     %
+9      fisher_neuron_iterative_sparsity80                 79.7       449.43     104.2     %
+10     fisher_neuron_iterative_sparsity25                 26.6       443.45     102.8     %
+11     magnitude_neuron_oneshot_before_sparsity50         50.0       440.04     102.0     %
+12     magnitude_neuron_iterative_sparsity60              59.4       436.39     101.1     %
+13     baseline                                           0.0        431.50     100.0     %
+14     magnitude_weight_oneshot_before_sparsity60         60.0       429.30     99.5      %
+15     magnitude_neuron_oneshot_before_sparsity85         84.4       425.75     98.7      %
+16     fisher_neuron_oneshot_before_sparsity75            75.0       425.67     98.6      %
+17     magnitude_neuron_iterative_sparsity85              84.4       422.34     97.9      %
+18     fisher_neuron_oneshot_before_sparsity50            50.0       414.97     96.2      %
+19     magnitude_weight_oneshot_before_sparsity25         25.0       414.65     96.1      %
+20     magnitude_weight_oneshot_before_sparsity85         85.0       412.58     95.6      %

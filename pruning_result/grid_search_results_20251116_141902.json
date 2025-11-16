@@ -1,0 +1,372 @@
+[
+  {
+    "exp_name": "baseline",
+    "technique": "none",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.0,
+    "avg_reward": 431.50199999999995,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.0
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity25",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.25,
+    "avg_reward": 414.646,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.25,
+    "performance_retention": 0.9609364498889925
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity50",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.5,
+    "avg_reward": 349.51,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5,
+    "performance_retention": 0.8099846582402863
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity60",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.6,
+    "avg_reward": 429.3,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5999540441176471,
+    "performance_retention": 0.9948968950317729
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity75",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.75,
+    "avg_reward": 10.377565229241767,
+    "avg_max_reward": 24.8,
+    "final_sparsity": 0.75,
+    "performance_retention": 0.024049865885307064
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity80",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.8,
+    "avg_reward": 9.750749031402023,
+    "avg_max_reward": 22.8,
+    "final_sparsity": 0.7998621323529411,
+    "performance_retention": 0.022597227895588025
+  },
+  {
+    "exp_name": "magnitude_weight_oneshot_before_sparsity85",
+    "technique": "magnitude_weight",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.85,
+    "avg_reward": 412.582,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.8499540441176471,
+    "performance_retention": 0.9561531580386651
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity25",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.25,
+    "avg_reward": 495.59,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.25,
+    "performance_retention": 1.148523065941757
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity50",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.5,
+    "avg_reward": 269.006,
+    "avg_max_reward": 423.8,
+    "final_sparsity": 0.5,
+    "performance_retention": 0.6234177361866226
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity60",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.6,
+    "avg_reward": 484.908,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5999540441176471,
+    "performance_retention": 1.123767676627223
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity75",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.75,
+    "avg_reward": 86.66369426127582,
+    "avg_max_reward": 196.8,
+    "final_sparsity": 0.75,
+    "performance_retention": 0.20084192949575166
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity80",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.8,
+    "avg_reward": 207.51,
+    "avg_max_reward": 416.8,
+    "final_sparsity": 0.7998621323529411,
+    "performance_retention": 0.4809015948941141
+  },
+  {
+    "exp_name": "magnitude_weight_iterative_sparsity85",
+    "technique": "magnitude_weight",
+    "schedule": "iterative",
+    "prune_ratio": 0.85,
+    "avg_reward": 325.88599999999997,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.8499540441176471,
+    "performance_retention": 0.7552363604340189
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity25",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.25,
+    "avg_reward": 396.42,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.25,
+    "performance_retention": 0.9186979434626028
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity50",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.5,
+    "avg_reward": 440.04400000000004,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5,
+    "performance_retention": 1.0197959685007256
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity60",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.6,
+    "avg_reward": 273.476,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.59375,
+    "performance_retention": 0.6337769002229423
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity75",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.75,
+    "avg_reward": 283.82000000000005,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.75,
+    "performance_retention": 0.6577489791472579
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity80",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.8,
+    "avg_reward": 387.61199999999997,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.796875,
+    "performance_retention": 0.8982855235896937
+  },
+  {
+    "exp_name": "magnitude_neuron_oneshot_before_sparsity85",
+    "technique": "magnitude_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.85,
+    "avg_reward": 425.75,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.84375,
+    "performance_retention": 0.9866698184481185
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity25",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.25,
+    "avg_reward": 474.93,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.25,
+    "performance_retention": 1.1006437977112506
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity50",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.5,
+    "avg_reward": 365.198,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5,
+    "performance_retention": 0.8463413842809535
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity60",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.6,
+    "avg_reward": 436.38800000000003,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.59375,
+    "performance_retention": 1.0113232383627424
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity75",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.75,
+    "avg_reward": 239.554,
+    "avg_max_reward": 496.0,
+    "final_sparsity": 0.75,
+    "performance_retention": 0.5551631278649926
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity80",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.8,
+    "avg_reward": 387.172,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.796875,
+    "performance_retention": 0.897265829590593
+  },
+  {
+    "exp_name": "magnitude_neuron_iterative_sparsity85",
+    "technique": "magnitude_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.85,
+    "avg_reward": 422.33599999999996,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.84375,
+    "performance_retention": 0.9787579200096408
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity25",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.25,
+    "avg_reward": 484.62000000000006,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.25,
+    "performance_retention": 1.1231002405550845
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity50",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.5,
+    "avg_reward": 414.974,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5,
+    "performance_retention": 0.9616965854155949
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity60",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.6,
+    "avg_reward": 401.798,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.59375,
+    "performance_retention": 0.9311613851152487
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity75",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.75,
+    "avg_reward": 425.674,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.75,
+    "performance_retention": 0.9864936894846374
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity80",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.8,
+    "avg_reward": 232.58,
+    "avg_max_reward": 485.6,
+    "final_sparsity": 0.796875,
+    "performance_retention": 0.5390009779792447
+  },
+  {
+    "exp_name": "fisher_neuron_oneshot_before_sparsity85",
+    "technique": "fisher_neuron",
+    "schedule": "oneshot_before",
+    "prune_ratio": 0.85,
+    "avg_reward": 411.566,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.84375,
+    "performance_retention": 0.9537985918952867
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity25",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.25,
+    "avg_reward": 443.45200000000006,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.265625,
+    "performance_retention": 1.0276939620210337
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity50",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.5,
+    "avg_reward": 467.004,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.5,
+    "performance_retention": 1.0822754008092663
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity60",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.6,
+    "avg_reward": 458.128,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.59375,
+    "performance_retention": 1.0617053918637689
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity75",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.75,
+    "avg_reward": 454.254,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.75,
+    "performance_retention": 1.0527274496989587
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity80",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.8,
+    "avg_reward": 449.43199999999996,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.796875,
+    "performance_retention": 1.0415525304633582
+  },
+  {
+    "exp_name": "fisher_neuron_iterative_sparsity85",
+    "technique": "fisher_neuron",
+    "schedule": "iterative",
+    "prune_ratio": 0.85,
+    "avg_reward": 475.83600000000007,
+    "avg_max_reward": 500.0,
+    "final_sparsity": 0.84375,
+    "performance_retention": 1.1027434403548537
+  }
+]
+
