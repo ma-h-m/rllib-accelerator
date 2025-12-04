@@ -1,0 +1,64 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            cx1gj9v7lkm8laf1n3taw4t5zgc6c4z7:
+                codePath: main.py
+                codePathLocal: main.py
+                cpu_count: 8
+                cpu_count_logical: 8
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "1081101176832"
+                        used: "119967825920"
+                email: mahaoming8585485@163.com
+                executable: /home/mhm/.pyenv/versions/3.10.14/bin/python
+                git:
+                    commit: 64a01812d1d7adefff84a964d1fea0837a11a2d9
+                    remote: https://github.com/ma-h-m/rllib-accelerator/
+                gpu: NVIDIA GeForce RTX 5090
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      memoryTotal: "34190917632"
+                      name: NVIDIA GeForce RTX 5090
+                      uuid: GPU-3da99c43-a9ce-dd1f-18e3-c4f223772f96
+                host: DESKTOP-3PG5ACS
+                memory:
+                    total: "16269938688"
+                os: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39
+                program: /home/mhm/workspace/rllib-accelerator/main.py
+                python: CPython 3.10.14
+                root: /home/mhm/workspace/rllib-accelerator
+                startedAt: "2025-12-04T01:47:53.296299Z"
+                writerId: cx1gj9v7lkm8laf1n3taw4t5zgc6c4z7
+        m: []
+        python_version: 3.10.14
+        t:
+            "1":
+                - 1
+                - 30
+            "2":
+                - 1
+                - 30
+            "3":
+                - 13
+                - 16
+                - 61
+            "4": 3.10.14
+            "5": 0.23.1
+            "12": 0.23.1
+            "13": linux-x86_64
+compile_mode:
+    value: async
+device:
+    value: cpu
+enable_diff_check:
+    value: false
+env_id:
+    value: CartPole-v1
+experiment:
+    value: torch_compile_async
+trigger_every:
+    value: 0

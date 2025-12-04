@@ -1,0 +1,49 @@
+[ASYNC] Epoch   1 | Reward=0.00 | Samples=8000 | Total=5.74s (Rollout=4.91s, Train=0.83s) | Thrpt=1392.9/s | Compile=None | Infer=3.047s | Env=1.858s
+[ASYNC] Epoch   2 | Reward=0.00 | Samples=8000 | Total=5.69s (Rollout=4.79s, Train=0.90s) | Thrpt=1405.0/s | Compile=None | Infer=2.987s | Env=1.804s
+[Broadcast] 📤 Inference backbone updated on all sampler workers.
+[AsyncCompile] 🔁 Swapped inference model.
+[36m(RolloutWorker pid=153324)[0m W1203 20:48:07.682000 153324 site-packages/torch/utils/cpp_extension.py:118] [0/0] No CUDA runtime is found, using CUDA_HOME='/usr'
+[36m(RolloutWorker pid=153321)[0m 2025-12-03 20:47:52,231	WARNING catalog.py:630 -- Custom ModelV2 should accept all custom options as **kwargs, instead of expecting them in config['custom_model_config']![32m [repeated 2x across cluster][0m
+[36m(RolloutWorker pid=153322)[0m W1203 20:48:09.242000 153322 site-packages/torch/utils/cpp_extension.py:118] [0/0] No CUDA runtime is found, using CUDA_HOME='/usr'
+[ASYNC] Epoch   3 | Reward=0.00 | Samples=8000 | Total=13.15s (Rollout=12.38s, Train=0.76s) | Thrpt=608.2/s | Compile=0.0015811920166015625 | Infer=8.906s | Env=3.474s
+[ASYNC] Epoch   4 | Reward=0.00 | Samples=8000 | Total=5.35s (Rollout=4.61s, Train=0.74s) | Thrpt=1495.7/s | Compile=None | Infer=2.872s | Env=1.735s
+[ASYNC] Epoch   5 | Reward=0.00 | Samples=8000 | Total=5.31s (Rollout=4.62s, Train=0.69s) | Thrpt=1505.2/s | Compile=None | Infer=2.871s | Env=1.751s
+[ASYNC] Epoch   6 | Reward=0.00 | Samples=8000 | Total=5.33s (Rollout=4.62s, Train=0.71s) | Thrpt=1500.0/s | Compile=None | Infer=2.878s | Env=1.744s
+[ASYNC] Epoch   7 | Reward=0.00 | Samples=8000 | Total=5.31s (Rollout=4.61s, Train=0.70s) | Thrpt=1507.0/s | Compile=None | Infer=2.873s | Env=1.735s
+[ASYNC] Epoch   8 | Reward=0.00 | Samples=8000 | Total=5.42s (Rollout=4.68s, Train=0.73s) | Thrpt=1476.5/s | Compile=None | Infer=2.923s | Env=1.752s
+Traceback (most recent call last):
+  File "/home/mhm/workspace/rllib-accelerator/main.py", line 98, in <module>
+    trainer.run(num_epochs=hparams["num_epochs"])
+  File "/home/mhm/workspace/rllib-accelerator/framework/trainer.py", line 202, in run
+    self.train_epoch(e)
+  File "/home/mhm/workspace/rllib-accelerator/framework/trainer.py", line 121, in train_epoch
+    samples = ray.get([w.sample.remote() for w in workers])
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/auto_init_hook.py", line 22, in auto_init_wrapper
+    return fn(*args, **kwargs)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/worker.py", line 2618, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/worker.py", line 819, in get_objects
+    data_metadata_pairs = self.core_worker.get_objects(
+  File "python/ray/_raylet.pyx", line 3381, in ray._raylet.CoreWorker.get_objects
+  File "python/ray/_raylet.pyx", line 570, in ray._raylet.check_status
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/mhm/workspace/rllib-accelerator/main.py", line 98, in <module>
+    trainer.run(num_epochs=hparams["num_epochs"])
+  File "/home/mhm/workspace/rllib-accelerator/framework/trainer.py", line 202, in run
+    self.train_epoch(e)
+  File "/home/mhm/workspace/rllib-accelerator/framework/trainer.py", line 121, in train_epoch
+    samples = ray.get([w.sample.remote() for w in workers])
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/auto_init_hook.py", line 22, in auto_init_wrapper
+    return fn(*args, **kwargs)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/worker.py", line 2618, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+  File "/home/mhm/.pyenv/versions/3.10.14/lib/python3.10/site-packages/ray/_private/worker.py", line 819, in get_objects
+    data_metadata_pairs = self.core_worker.get_objects(
+  File "python/ray/_raylet.pyx", line 3381, in ray._raylet.CoreWorker.get_objects
+  File "python/ray/_raylet.pyx", line 570, in ray._raylet.check_status
+KeyboardInterrupt

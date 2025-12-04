@@ -1,0 +1,22 @@
+[Broadcast] 📤 Inference backbone updated on all sampler workers.
+[SyncCompile] ✅ Compiled & swapped immediately.
+[SYNC] Epoch   1 | Reward=0.00 | Samples=8000 | Total=8.61s (Rollout=4.59s, Train=3.54s) | Thrpt=929.5/s | Compile=0.0014028549194335938 | Infer=2.886s | Env=1.701s
+[36m(RolloutWorker pid=160829)[0m W1203 20:50:14.907000 160829 site-packages/torch/utils/cpp_extension.py:118] [0/0] No CUDA runtime is found, using CUDA_HOME='/usr'
+[36m(RolloutWorker pid=160828)[0m 2025-12-03 20:50:01,967	WARNING catalog.py:630 -- Custom ModelV2 should accept all custom options as **kwargs, instead of expecting them in config['custom_model_config']![32m [repeated 3x across cluster][0m
+[SYNC] Epoch   2 | Reward=0.00 | Samples=8000 | Total=13.71s (Rollout=13.12s, Train=0.58s) | Thrpt=583.6/s | Compile=None | Infer=9.486s | Env=3.631s
+[SYNC] Epoch   3 | Reward=0.00 | Samples=8000 | Total=5.05s (Rollout=4.48s, Train=0.57s) | Thrpt=1582.8/s | Compile=None | Infer=2.734s | Env=1.744s
+[SYNC] Epoch   4 | Reward=0.00 | Samples=8000 | Total=4.71s (Rollout=4.09s, Train=0.61s) | Thrpt=1697.5/s | Compile=None | Infer=2.494s | Env=1.592s
+[SYNC] Epoch   5 | Reward=0.00 | Samples=8000 | Total=4.73s (Rollout=4.13s, Train=0.60s) | Thrpt=1691.9/s | Compile=None | Infer=2.509s | Env=1.618s
+[SYNC] Epoch   6 | Reward=0.00 | Samples=8000 | Total=4.70s (Rollout=4.08s, Train=0.61s) | Thrpt=1703.3/s | Compile=None | Infer=2.496s | Env=1.587s
+[SYNC] Epoch   7 | Reward=0.00 | Samples=8000 | Total=4.70s (Rollout=4.11s, Train=0.58s) | Thrpt=1703.4/s | Compile=None | Infer=2.511s | Env=1.604s
+[SYNC] Epoch   8 | Reward=0.00 | Samples=8000 | Total=4.69s (Rollout=4.08s, Train=0.60s) | Thrpt=1707.0/s | Compile=None | Infer=2.495s | Env=1.587s
+[SYNC] Epoch   9 | Reward=0.00 | Samples=8000 | Total=4.69s (Rollout=4.10s, Train=0.59s) | Thrpt=1707.5/s | Compile=None | Infer=2.497s | Env=1.599s
+[SYNC] Epoch  10 | Reward=0.00 | Samples=8000 | Total=4.75s (Rollout=4.08s, Train=0.66s) | Thrpt=1685.3/s | Compile=None | Infer=2.485s | Env=1.600s
+
+=== Summary (sync) ===
+Epochs: 10
+Reward mean (avg over epochs): 0.00
+Total time (avg per epoch): 6.03s
+  Rollout time avg: 5.09s | Train time avg: 0.90s
+Throughput (avg samples/s): 1499.2
+Compile latency (avg when available): 0.001s

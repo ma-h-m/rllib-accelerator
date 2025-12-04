@@ -1,5 +1,7 @@
 # path: models/policy.py
 
+import time
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -97,6 +99,7 @@ class CustomPolicyNet(TorchModelV2, nn.Module):
 
         # value_function 输出缓存
         self._value_out = None
+        self._inference_time_accum = 0.0
 
     # ------------------------------------------------------------
     # RLlib forward
@@ -115,6 +118,7 @@ class CustomPolicyNet(TorchModelV2, nn.Module):
             if (self.use_compiled and self.compiled_backbone is not None)
             else self.backbone
         )
+        t0 = time.perf_counter()
         if bb is not None:
             # 将观测移动到 backbone 所在设备，避免 CPU/GPU 混用
             try:
@@ -125,6 +129,7 @@ class CustomPolicyNet(TorchModelV2, nn.Module):
 
         logits, value = bb(obs)
         self._value_out = value.view(-1)     # RLlib 需要 [B] 向量
+        self._inference_time_accum += (time.perf_counter() - t0)
 
         return logits, state
 
@@ -156,6 +161,11 @@ class CustomPolicyNet(TorchModelV2, nn.Module):
         dummy_obs = torch.randn(batch_size, in_dim, device=device)
         with torch.no_grad():
             self.compiled_backbone(dummy_obs)
+
+    def consume_inference_time(self) -> float:
+        total = self._inference_time_accum
+        self._inference_time_accum = 0.0
+        return total
 
     # ------------------------------------------------------------
     # state_dict/load_state_dict：处理 torch.compile 引入的 _orig_mod 前缀

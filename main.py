@@ -31,11 +31,16 @@ def resolve_device(config_device: str):
 
 def build_config(hidden_layers, device: str, hparams):
     use_gpu = device.startswith("cuda") and torch.cuda.is_available()
+    num_workers = hparams["num_rollout_workers"]
+    gpus_per_worker = (1.0 / num_workers) if (use_gpu and num_workers > 0) else 0.0
     return (
         PPOConfig()
         .environment(hparams["env_id"])
         .framework("torch")
-        .resources(num_gpus=1 if use_gpu else 0)
+        .resources(
+            num_gpus=1 if use_gpu else 0,
+            num_gpus_per_worker=gpus_per_worker,
+        )
         .training(
             model={
                 "custom_model": "custom_policy",

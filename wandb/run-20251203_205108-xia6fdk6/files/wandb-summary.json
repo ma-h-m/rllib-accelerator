@@ -1,0 +1,1 @@
+{"_step":10,"_runtime":54.726053915,"env_time":1.5161212155226167,"epoch":10,"train_time":0.6222436428070068,"compile_latency":0.0015490055084228516,"reward_mean":0,"throughput":1718.6312098671947,"inference_time":2.512578897773892,"rollout_time":4.028700113296509,"_timestamp":1.7648131239989812e+09,"total_time":4.654867172241211,"_wandb":{"runtime":54}}

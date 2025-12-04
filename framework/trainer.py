@@ -173,7 +173,13 @@ class Trainer:
             "train_time": train_time,
             "throughput": throughput,
             "compile_latency": compile_latency,
+            "inference_time": self._collect_inference_time(),
         }
+        avg_infer = rec["inference_time"]
+        workers = max(len(self.algo.workers.remote_workers()), 1)
+        avg_infer /= workers
+        rec["inference_time"] = avg_infer
+        rec["env_time"] = max(0.0, rec["rollout_time"] - avg_infer)
         self.stats.append(rec)
         self._log(rec)
 
@@ -184,7 +190,8 @@ class Trainer:
             f"Total={step_time:.2f}s "
             f"(Rollout={rollout_time:.2f}s, Train={train_time:.2f}s) | "
             f"Thrpt={throughput:.1f}/s | "
-            f"Compile={compile_latency}"
+            f"Compile={compile_latency} | "
+            f"Infer={rec['inference_time']:.3f}s | Env={rec['env_time']:.3f}s"
         )
 
     # ------------------------------------------------------------
@@ -233,3 +240,25 @@ class Trainer:
         self.log_file.close()
         if self.wandb_run is not None:
             self.wandb_run.finish()
+
+    def _collect_inference_time(self) -> float:
+        """汇总 rollout workers（以及无 remote 时的 local worker）的推理耗时。"""
+        total = 0.0
+
+        def _pull(worker):
+            def inner(policy, pid):
+                model = getattr(policy, "model", None)
+                if model is not None and hasattr(model, "consume_inference_time"):
+                    return model.consume_inference_time()
+                return 0.0
+            values = worker.foreach_policy(inner)
+            return sum(values)
+
+        workers = self.algo.workers.remote_workers()
+        if workers:
+            totals = ray.get([w.apply.remote(_pull) for w in workers])
+            total += sum(totals)
+        else:
+            total += _pull(self.algo.workers.local_worker())
+
+        return total

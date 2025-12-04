@@ -1,0 +1,21 @@
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:setup_run_log_directory():714] Logging user logs to /home/mhm/workspace/rllib-accelerator/wandb/run-20251203_205207-zwx6qeyi/logs/debug.log
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:setup_run_log_directory():715] Logging internal logs to /home/mhm/workspace/rllib-accelerator/wandb/run-20251203_205207-zwx6qeyi/logs/debug-internal.log
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:init():841] calling init triggers
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:init():846] wandb.init called with sweep_config: {}
+config: {'compile_mode': 'async', 'device': 'cpu', 'trigger_every': 0, 'enable_diff_check': False, 'experiment': 'torch_compile_async', 'env_id': 'CartPole-v1', '_wandb': {}}
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:init():889] starting backend
+2025-12-03 20:52:07,815 INFO    MainThread:157410 [wandb_init.py:init():892] sending inform_init request
+2025-12-03 20:52:07,816 INFO    MainThread:157410 [wandb_init.py:init():900] backend started and connected
+2025-12-03 20:52:07,817 INFO    MainThread:157410 [wandb_init.py:init():970] updated telemetry
+2025-12-03 20:52:07,821 INFO    MainThread:157410 [wandb_init.py:init():994] communicating run to backend with 90.0 second timeout
+2025-12-03 20:52:08,253 INFO    MainThread:157410 [wandb_init.py:init():1041] starting run threads in backend
+2025-12-03 20:52:08,352 INFO    MainThread:157410 [wandb_run.py:_console_start():2521] atexit reg
+2025-12-03 20:52:08,352 INFO    MainThread:157410 [wandb_run.py:_redirect():2369] redirect: wrap_raw
+2025-12-03 20:52:08,353 INFO    MainThread:157410 [wandb_run.py:_redirect():2438] Wrapping output streams.
+2025-12-03 20:52:08,353 INFO    MainThread:157410 [wandb_run.py:_redirect():2461] Redirects installed.
+2025-12-03 20:52:08,354 INFO    MainThread:157410 [wandb_init.py:init():1081] run started, returning control to user process
+2025-12-03 20:53:04,483 INFO    MainThread:157410 [wandb_run.py:_finish():2287] finishing run mahm/rllib-accelerator/zwx6qeyi
+2025-12-03 20:53:04,484 INFO    MainThread:157410 [wandb_run.py:_atexit_cleanup():2486] got exitcode: 0
+2025-12-03 20:53:04,484 INFO    MainThread:157410 [wandb_run.py:_restore():2468] restore
+2025-12-03 20:53:04,485 INFO    MainThread:157410 [wandb_run.py:_restore():2474] restore done
+2025-12-03 20:53:05,125 INFO    MainThread:157410 [wandb_run.py:_footer_sync_info():3862] logging synced files

@@ -1,0 +1,19 @@
+2025-12-03 20:49:06,631	WARNING deprecation.py:50 -- DeprecationWarning: `remote_workers()` has been deprecated. Use `Use either the `foreach_worker()`, `foreach_worker_with_id()`, or `foreach_worker_async()` APIs of `WorkerSet`, which all handle fault tolerance.` instead. This will raise an error in the future!
+[NONE] Epoch   1 | Reward=0.00 | Samples=8000 | Total=5.79s (Rollout=4.83s, Train=0.97s) | Thrpt=1381.4/s | Compile=None | Infer=3.058s | Env=1.767s
+[NONE] Epoch   2 | Reward=0.00 | Samples=8000 | Total=5.30s (Rollout=4.53s, Train=0.78s) | Thrpt=1508.8/s | Compile=None | Infer=2.851s | Env=1.675s
+[NONE] Epoch   3 | Reward=0.00 | Samples=8000 | Total=5.15s (Rollout=4.48s, Train=0.67s) | Thrpt=1552.4/s | Compile=None | Infer=2.834s | Env=1.647s
+[NONE] Epoch   4 | Reward=0.00 | Samples=8000 | Total=5.16s (Rollout=4.46s, Train=0.70s) | Thrpt=1551.1/s | Compile=None | Infer=2.827s | Env=1.635s
+[NONE] Epoch   5 | Reward=0.00 | Samples=8000 | Total=5.17s (Rollout=4.46s, Train=0.70s) | Thrpt=1548.0/s | Compile=None | Infer=2.827s | Env=1.636s
+[NONE] Epoch   6 | Reward=0.00 | Samples=8000 | Total=5.19s (Rollout=4.49s, Train=0.70s) | Thrpt=1541.7/s | Compile=None | Infer=2.839s | Env=1.653s
+[NONE] Epoch   7 | Reward=0.00 | Samples=8000 | Total=5.17s (Rollout=4.49s, Train=0.67s) | Thrpt=1548.2/s | Compile=None | Infer=2.854s | Env=1.640s
+[NONE] Epoch   8 | Reward=0.00 | Samples=8000 | Total=5.15s (Rollout=4.48s, Train=0.66s) | Thrpt=1554.3/s | Compile=None | Infer=2.835s | Env=1.648s
+[NONE] Epoch   9 | Reward=0.00 | Samples=8000 | Total=5.10s (Rollout=4.46s, Train=0.64s) | Thrpt=1567.3/s | Compile=None | Infer=2.818s | Env=1.645s
+[NONE] Epoch  10 | Reward=0.00 | Samples=8000 | Total=5.11s (Rollout=4.45s, Train=0.66s) | Thrpt=1565.3/s | Compile=None | Infer=2.816s | Env=1.637s
+
+=== Summary (none) ===
+Epochs: 10
+Reward mean (avg over epochs): 0.00
+Total time (avg per epoch): 5.23s
+  Rollout time avg: 4.51s | Train time avg: 0.71s
+Throughput (avg samples/s): 1531.9
+Compile latency: N/A

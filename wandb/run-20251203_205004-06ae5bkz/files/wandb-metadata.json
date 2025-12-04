@@ -1,0 +1,39 @@
+{
+  "os":  "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python":  "CPython 3.10.14",
+  "startedAt":  "2025-12-04T01:50:04.060392Z",
+  "program":  "/home/mhm/workspace/rllib-accelerator/main.py",
+  "codePath":  "main.py",
+  "codePathLocal":  "main.py",
+  "git":  {
+    "remote":  "https://github.com/ma-h-m/rllib-accelerator/",
+    "commit":  "64a01812d1d7adefff84a964d1fea0837a11a2d9"
+  },
+  "email":  "mahaoming8585485@163.com",
+  "root":  "/home/mhm/workspace/rllib-accelerator",
+  "host":  "DESKTOP-3PG5ACS",
+  "executable":  "/home/mhm/.pyenv/versions/3.10.14/bin/python",
+  "cpu_count":  8,
+  "cpu_count_logical":  8,
+  "gpu":  "NVIDIA GeForce RTX 5090",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "1081101176832",
+      "used":  "119968821248"
+    }
+  },
+  "memory":  {
+    "total":  "16269938688"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 5090",
+      "memoryTotal":  "34190917632",
+      "architecture":  "Blackwell",
+      "uuid":  "GPU-3da99c43-a9ce-dd1f-18e3-c4f223772f96"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "kkebojqcntdmptqqhxsfjprzcnh1brrn"
+}
