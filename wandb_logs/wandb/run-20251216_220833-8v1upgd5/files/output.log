@@ -1,0 +1,114 @@
+[ASYNC] Epoch   1 | Reward=18.11 | Samples=2000 | Total=0.25s (Rollout=0.24s, Train=0.01s) | Thrpt=7947.8/s | Compile=None | Swap=None | Infer=0.033s | Env=0.206s
+[ASYNC] Epoch   2 | Reward=21.24 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=8979.2/s | Compile=None | Swap=None | Infer=0.028s | Env=0.182s
+[ASYNC] Epoch   3 | Reward=22.17 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9125.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.180s
+[ASYNC] Epoch   4 | Reward=20.48 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9010.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.183s
+[ASYNC] Epoch   5 | Reward=24.48 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9080.1/s | Compile=None | Swap=None | Infer=0.028s | Env=0.178s
+[ASYNC] Epoch   6 | Reward=26.26 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9473.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.173s
+[ASYNC] Epoch   7 | Reward=22.92 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9309.0/s | Compile=None | Swap=None | Infer=0.028s | Env=0.177s
+[ASYNC] Epoch   8 | Reward=28.21 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9586.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.171s
+[ASYNC] Epoch   9 | Reward=25.95 | Samples=2000 | Total=0.28s (Rollout=0.27s, Train=0.01s) | Thrpt=7244.6/s | Compile=None | Swap=None | Infer=0.033s | Env=0.232s
+[ASYNC] Epoch  10 | Reward=29.06 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9198.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.179s
+[ASYNC] Epoch  11 | Reward=37.30 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9626.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[ASYNC] Epoch  12 | Reward=27.97 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9612.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  13 | Reward=33.75 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9634.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[ASYNC] Epoch  14 | Reward=35.15 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9593.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.171s
+[ASYNC] Epoch  15 | Reward=39.75 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9652.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[ASYNC] Epoch  16 | Reward=33.33 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9678.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  17 | Reward=40.94 | Samples=2000 | Total=0.31s (Rollout=0.30s, Train=0.01s) | Thrpt=6487.2/s | Compile=None | Swap=None | Infer=0.039s | Env=0.258s
+[ASYNC] Epoch  18 | Reward=43.17 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.01s) | Thrpt=9731.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  19 | Reward=38.33 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.01s) | Thrpt=9708.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  20 | Reward=43.95 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.01s) | Thrpt=9679.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  21 | Reward=41.18 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9648.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  22 | Reward=55.03 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9743.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  23 | Reward=48.73 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9619.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  24 | Reward=46.47 | Samples=2000 | Total=0.20s (Rollout=0.19s, Train=0.01s) | Thrpt=9818.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[ASYNC] Epoch  25 | Reward=46.16 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9599.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  26 | Reward=51.67 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9604.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[ASYNC] Epoch  27 | Reward=52.06 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9455.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  28 | Reward=53.38 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9551.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[ASYNC] Epoch  29 | Reward=52.05 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9666.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[ASYNC] Epoch  30 | Reward=66.59 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9500.0/s | Compile=None | Swap=None | Infer=0.028s | Env=0.170s
+[ASYNC] Epoch  31 | Reward=60.21 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9051.6/s | Compile=None | Swap=None | Infer=0.029s | Env=0.180s
+[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization
+[AsyncCompile] 🔁 Swapped inference model.
+[ASYNC] Epoch  32 | Reward=66.30 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9200.1/s | Compile=0.10095095634460449 | Swap=0.006124019622802734 | Infer=0.028s | Env=0.172s
+[ASYNC] Epoch  33 | Reward=70.00 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9158.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  34 | Reward=66.61 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9406.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  35 | Reward=70.04 | Samples=2000 | Total=0.27s (Rollout=0.25s, Train=0.02s) | Thrpt=7380.2/s | Compile=None | Swap=None | Infer=0.035s | Env=0.213s
+[ASYNC] Epoch  36 | Reward=96.48 | Samples=2000 | Total=0.26s (Rollout=0.24s, Train=0.02s) | Thrpt=7749.2/s | Compile=None | Swap=None | Infer=0.033s | Env=0.207s
+[ASYNC] Epoch  37 | Reward=77.81 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8787.9/s | Compile=None | Swap=None | Infer=0.029s | Env=0.181s
+[ASYNC] Epoch  38 | Reward=74.44 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9388.6/s | Compile=None | Swap=None | Infer=0.028s | Env=0.169s
+[ASYNC] Epoch  39 | Reward=85.25 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9539.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  40 | Reward=83.83 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8589.6/s | Compile=None | Swap=None | Infer=0.030s | Env=0.184s
+[ASYNC] Epoch  41 | Reward=88.73 | Samples=2000 | Total=0.24s (Rollout=0.22s, Train=0.02s) | Thrpt=8299.6/s | Compile=None | Swap=None | Infer=0.031s | Env=0.192s
+[ASYNC] Epoch  42 | Reward=98.15 | Samples=2000 | Total=0.23s (Rollout=0.22s, Train=0.02s) | Thrpt=8516.1/s | Compile=None | Swap=None | Infer=0.030s | Env=0.187s
+[ASYNC] Epoch  43 | Reward=103.86 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8694.5/s | Compile=None | Swap=None | Infer=0.030s | Env=0.180s
+[ASYNC] Epoch  44 | Reward=100.17 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9054.4/s | Compile=None | Swap=None | Infer=0.029s | Env=0.174s
+[ASYNC] Epoch  45 | Reward=126.27 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9200.8/s | Compile=None | Swap=None | Infer=0.028s | Env=0.172s
+[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization
+[ASYNC] Epoch  46 | Reward=109.85 | Samples=2000 | Total=0.24s (Rollout=0.22s, Train=0.02s) | Thrpt=8385.2/s | Compile=0.00043702125549316406 | Swap=0.00465703010559082 | Infer=0.031s | Env=0.188s
+[ASYNC] Epoch  47 | Reward=94.68 | Samples=2000 | Total=0.24s (Rollout=0.22s, Train=0.02s) | Thrpt=8507.7/s | Compile=None | Swap=None | Infer=0.031s | Env=0.187s
+[ASYNC] Epoch  48 | Reward=103.05 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9286.9/s | Compile=None | Swap=None | Infer=0.028s | Env=0.170s
+[ASYNC] Epoch  49 | Reward=127.18 | Samples=2000 | Total=0.28s (Rollout=0.26s, Train=0.02s) | Thrpt=7217.1/s | Compile=None | Swap=None | Infer=0.038s | Env=0.222s
+[ASYNC] Epoch  50 | Reward=121.75 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9197.7/s | Compile=None | Swap=None | Infer=0.028s | Env=0.170s
+[ASYNC] Epoch  51 | Reward=147.38 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=8924.0/s | Compile=None | Swap=None | Infer=0.028s | Env=0.172s
+[ASYNC] Epoch  52 | Reward=116.95 | Samples=2000 | Total=0.28s (Rollout=0.26s, Train=0.02s) | Thrpt=7114.9/s | Compile=None | Swap=None | Infer=0.038s | Env=0.225s
+[ASYNC] Epoch  53 | Reward=136.36 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.02s) | Thrpt=8901.5/s | Compile=None | Swap=None | Infer=0.029s | Env=0.178s
+[ASYNC] Epoch  54 | Reward=132.23 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9447.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[ASYNC] Epoch  55 | Reward=131.75 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9532.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[ASYNC] Epoch  56 | Reward=176.08 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9483.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[ASYNC] Epoch  57 | Reward=131.47 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9603.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[ASYNC] Epoch  58 | Reward=141.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9386.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  59 | Reward=175.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9600.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[ASYNC] Epoch  60 | Reward=176.73 | Samples=2000 | Total=0.29s (Rollout=0.27s, Train=0.02s) | Thrpt=6818.1/s | Compile=None | Swap=None | Infer=0.040s | Env=0.234s
+[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization
+[ASYNC] Epoch  61 | Reward=162.00 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9102.2/s | Compile=0.0005083084106445312 | Swap=0.004480123519897461 | Infer=0.029s | Env=0.173s
+[ASYNC] Epoch  62 | Reward=185.58 | Samples=2000 | Total=0.27s (Rollout=0.25s, Train=0.02s) | Thrpt=7516.4/s | Compile=None | Swap=None | Infer=0.035s | Env=0.212s
+[ASYNC] Epoch  63 | Reward=153.29 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8794.2/s | Compile=None | Swap=None | Infer=0.030s | Env=0.181s
+[ASYNC] Epoch  64 | Reward=165.60 | Samples=2000 | Total=0.25s (Rollout=0.23s, Train=0.02s) | Thrpt=7974.8/s | Compile=None | Swap=None | Infer=0.032s | Env=0.198s
+[ASYNC] Epoch  65 | Reward=164.70 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8709.7/s | Compile=None | Swap=None | Infer=0.030s | Env=0.181s
+[ASYNC] Epoch  66 | Reward=186.15 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9429.2/s | Compile=None | Swap=None | Infer=0.028s | Env=0.166s
+[ASYNC] Epoch  67 | Reward=168.38 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9607.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[ASYNC] Epoch  68 | Reward=158.50 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9500.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[ASYNC] Epoch  69 | Reward=193.90 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9320.1/s | Compile=None | Swap=None | Infer=0.028s | Env=0.168s
+[ASYNC] Epoch  70 | Reward=201.91 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9449.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.168s
+[ASYNC] Epoch  71 | Reward=165.00 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8846.7/s | Compile=None | Swap=None | Infer=0.029s | Env=0.178s
+[ASYNC] Epoch  72 | Reward=157.77 | Samples=2000 | Total=0.25s (Rollout=0.23s, Train=0.02s) | Thrpt=7934.5/s | Compile=None | Swap=None | Infer=0.033s | Env=0.202s
+[ASYNC] Epoch  73 | Reward=157.91 | Samples=2000 | Total=0.25s (Rollout=0.23s, Train=0.02s) | Thrpt=8014.9/s | Compile=None | Swap=None | Infer=0.032s | Env=0.197s
+[ASYNC] Epoch  74 | Reward=149.00 | Samples=2000 | Total=0.26s (Rollout=0.24s, Train=0.02s) | Thrpt=7721.4/s | Compile=None | Swap=None | Infer=0.033s | Env=0.205s
+[ASYNC] Epoch  75 | Reward=188.25 | Samples=2000 | Total=0.27s (Rollout=0.24s, Train=0.02s) | Thrpt=7525.9/s | Compile=None | Swap=None | Infer=0.035s | Env=0.209s
+[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization
+[ASYNC] Epoch  76 | Reward=182.09 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9083.8/s | Compile=0.0006759166717529297 | Swap=0.0044651031494140625 | Infer=0.029s | Env=0.175s
+[ASYNC] Epoch  77 | Reward=150.25 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9492.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[ASYNC] Epoch  78 | Reward=229.50 | Samples=2000 | Total=0.30s (Rollout=0.27s, Train=0.02s) | Thrpt=6764.1/s | Compile=None | Swap=None | Infer=0.065s | Env=0.206s
+[ASYNC] Epoch  79 | Reward=193.11 | Samples=2000 | Total=0.37s (Rollout=0.30s, Train=0.07s) | Thrpt=5463.3/s | Compile=None | Swap=None | Infer=0.033s | Env=0.267s
+[ASYNC] Epoch  80 | Reward=231.89 | Samples=2000 | Total=0.25s (Rollout=0.23s, Train=0.02s) | Thrpt=7958.3/s | Compile=None | Swap=None | Infer=0.032s | Env=0.201s
+[ASYNC] Epoch  81 | Reward=197.83 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9439.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  82 | Reward=157.55 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9167.1/s | Compile=None | Swap=None | Infer=0.028s | Env=0.173s
+[ASYNC] Epoch  83 | Reward=169.83 | Samples=2000 | Total=0.23s (Rollout=0.21s, Train=0.02s) | Thrpt=8833.8/s | Compile=None | Swap=None | Infer=0.029s | Env=0.179s
+[ASYNC] Epoch  84 | Reward=179.40 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9213.7/s | Compile=None | Swap=None | Infer=0.028s | Env=0.171s
+[ASYNC] Epoch  85 | Reward=181.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9511.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.166s
+[ASYNC] Epoch  86 | Reward=152.59 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9453.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  87 | Reward=128.57 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9564.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[ASYNC] Epoch  88 | Reward=169.73 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9544.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[ASYNC] Epoch  89 | Reward=149.50 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9590.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[ASYNC] Epoch  90 | Reward=135.81 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9404.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.168s
+[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization
+[ASYNC] Epoch  91 | Reward=170.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9502.6/s | Compile=0.0006272792816162109 | Swap=0.004564046859741211 | Infer=0.028s | Env=0.166s
+[ASYNC] Epoch  92 | Reward=188.00 | Samples=2000 | Total=0.28s (Rollout=0.27s, Train=0.02s) | Thrpt=7062.4/s | Compile=None | Swap=None | Infer=0.038s | Env=0.229s
+[ASYNC] Epoch  93 | Reward=219.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9444.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  94 | Reward=200.11 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9366.7/s | Compile=None | Swap=None | Infer=0.028s | Env=0.169s
+[ASYNC] Epoch  95 | Reward=273.12 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9622.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[ASYNC] Epoch  96 | Reward=255.11 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9546.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[ASYNC] Epoch  97 | Reward=238.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9431.7/s | Compile=None | Swap=None | Infer=0.028s | Env=0.166s
+[ASYNC] Epoch  98 | Reward=231.22 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9401.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[ASYNC] Epoch  99 | Reward=226.80 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9464.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[ASYNC] Epoch 100 | Reward=179.10 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9327.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.168s
+
+=== Summary (async) ===
+Epochs: 100
+Reward mean (avg over epochs): 117.62
+Total time (avg per epoch): 0.23s
+  Rollout time avg: 0.21s | Train time avg: 0.02s
+Throughput (avg samples/s): 8960.9
+Compile latency (avg when available): 0.021s

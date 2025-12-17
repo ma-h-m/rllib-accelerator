@@ -44,22 +44,10 @@ DEFAULT_HPARAMS = {
     "prune_diff_threshold": 1e-3,    
     "prune_technique": "magnitude", 
     "prune_schedule": "iterative",   
-    "prune_steps": 5,                
+    "prune_steps": 15,                
     
     # ========== Pruning Mode ==========
-    "prune_training_model": True,   # False = Teacher-Student (recommended), True = Both Pruned (on-policy)
-    # 
-    # Mode 1 - Teacher-Student (prune_training_model=False) [RECOMMENDED]:
-    #   📚 Training: Full model (high capacity, better learning)
-    #   🎯 Inference: Pruned model (fast rollout)
-    #   Pros: No capacity loss, best learning performance
-    #   Cons: Small distribution mismatch (off-policy)
-    # 
-    # Mode 2 - Both Pruned (prune_training_model=True):
-    #   🎯 Training: Pruned model (reduced capacity)
-    #   🎯 Inference: Pruned model (fast rollout)
-    #   Pros: Strictly on-policy, faster training too
-    #   Cons: Reduced learning capacity, may hurt performance on complex tasks
+    "prune_training_model": True,   # Both training and inference models are pruned
     
     # ========== Quantization Settings ==========
     "quant_diff_threshold": 5e-4,
@@ -76,9 +64,10 @@ DEFAULT_HPARAMS = {
     },
     
     # ========== Logging ==========
-    "use_wandb": False,
+    "use_wandb": True,  # Enable W&B logging for experiments
     "wandb_project": "rllib-accelerator",
     "wandb_group": "pruning_experiments",
+    "wandb_tags": ["pruning", "compression", "rllib"],  # Tags for experiment organization
 }
 
 
@@ -154,8 +143,7 @@ for ratio in [0.1, 0.2, 0.3, 0.4]:
         "enable_diff_check": False,
         "compressors": ["prune+compile"],
         "async_warmup": True,
-        "infer_output_index": -1,  # ✅ Use compiled output (Solution 2 implemented)
-        # Experiment-specific pruning ratio will be injected into hparams at runtime
+        "infer_output_index": -1,  
         "_prune_ratio_override": ratio,
     })
 

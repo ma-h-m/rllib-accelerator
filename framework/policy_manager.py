@@ -38,10 +38,6 @@ class PolicyManager:
         - Broadcasts compressed backbone to all rollout workers
         - Handles Teacher-Student architecture for pruning
     
-    Teacher-Student Architecture (for pruning):
-        - Teacher (Training model): Full unpruned model for learning
-        - Student (Inference model): Pruned model for fast rollout
-        - Masks are only applied to Student, keeping Teacher at full capacity
     
     Usage:
         manager = PolicyManager(algo, compressors, CompileMode.ASYNC, trigger_every=5)
@@ -87,7 +83,7 @@ class PolicyManager:
         self.model_lock = threading.Lock()
         self.controller = CompressionController(self.pipeline, mode, self.model_lock)
 
-        # RLlib training model (Teacher in Teacher-Student architecture)
+        # RLlib training model
         self.train_model = self.algo.get_policy().model
 
         self.infer_output_index = infer_output_index
@@ -96,7 +92,7 @@ class PolicyManager:
             getattr(compressors[infer_output_index], "supports_weight_sync", False)
         )
 
-        # Current inference backbone used by samplers (Student in Teacher-Student architecture)
+        # Current inference backbone used by samplers
         self.current_infer_model: Optional[Any] = None
 
         # Metadata from most recent compression (latency, sparsity, etc.)
@@ -105,10 +101,6 @@ class PolicyManager:
         self._compile_training_backbone_flag = compile_training_backbone
         self._training_backbone_compiled = False
         
-        # For Mask Pruning: Store current masks to reapply on workers
-        # Behavior controlled by prune_training_model flag:
-        #   False (Teacher-Student): masks ONLY on inference model (Student)
-        #   True (Both Pruned): masks on BOTH training and inference models
         self._current_masks = None
         self._prune_training_model = prune_training_model
         
@@ -122,10 +114,9 @@ class PolicyManager:
         """
         Broadcast the given inference backbone to all rollout workers.
         
-        For pruning (Teacher-Student architecture):
+        For pruning:
             - Masks are broadcast separately and reapplied on each worker
             - This ensures register_hook persists on worker models
-            - Training model (Teacher) never receives masks
         
         Args:
             model: Compressed/compiled inference model to broadcast
@@ -232,17 +223,15 @@ class PolicyManager:
         
         Note: This is for STRUCTURE pruning, NOT mask pruning!
         
-        For mask pruning (Teacher-Student):
+        For mask pruning:
             - This method is NOT called
-            - Training model stays unchanged (full Teacher)
-            - Only inference model gets masked (Student)
+            - Training model stays unchanged (unless prune_training_model=True)
+            - Only inference model gets masked
         
         For structure pruning:
             - This method IS called
             - Both training and inference models change structure
             - Needed to keep them synchronized for weight updates
-        
-        Key: Ensures training and inference models have same structure for weight sync
         """
         if new_backbone is None:
             return
@@ -535,33 +524,9 @@ class PolicyManager:
         """
         Detect if compression changes model structure and handle pruning modes.
         
-        🎓 Two Pruning Modes (controlled by prune_training_model flag):
-        ============================================================
-        
-        Mode 1: Teacher-Student (prune_training_model=False)
-        --------------------------------------------------------
-        Teacher (Training model):
-            - Remains FULL and UNPRUNED
-            - Used for policy updates (backward pass)
-            - High learning capacity
-        
-        Student (Inference model):
-            - PRUNED with masks applied
-            - Used for rollout (forward pass only)
-            - Fast inference
-        
-        Why this works:
-            - Training on full model: Better learning, no capacity loss
-            - Inference with pruned model: Faster data collection
-            - Best of both worlds!
-        
-        Mode 2: Both Pruned (prune_training_model=True)
-        --------------------------------------------------------
-        Both training AND inference models are pruned:
-            - Strictly on-policy (no distribution mismatch)
-            - Trains on reduced capacity (may hurt learning)
-            - Faster training and inference
-            - Pure on-policy RL (matches standard RL theory)
+        Pruning Mode (controlled by prune_training_model flag):
+        - prune_training_model=True: Both training and inference models are pruned
+        - prune_training_model=False: Only inference model is pruned (training model stays full)
         
         Returns:
             False for mask pruning (doesn't change structure)
@@ -587,17 +552,11 @@ class PolicyManager:
                     
                     # Check prune_training_model flag
                     if self._prune_training_model:
-                        # Mode 2: Both Pruned (on-policy)
-                        print(f"[PolicyManager] 🔥 Both Pruned mode:")
-                        print(f"                🎯 Training: Pruned model (sparsity: {sparsity:.1f}%)")
-                        print(f"                🎯 Inference: Pruned model (sparsity: {sparsity:.1f}%)")
+                        print(f"[PolicyManager] 🔥 Both training and inference models pruned (sparsity: {sparsity:.1f}%)")
                         # Apply masks to training model
                         self._apply_masks_to_training(masks)
                     else:
-                        # Mode 1: Teacher-Student (default)
-                        print(f"[PolicyManager] 🎓 Teacher-Student mode:")
-                        print(f"                📚 Teacher (Training): Full model (no pruning)")
-                        print(f"                🎯 Student (Inference): Pruned model (sparsity: {sparsity:.1f}%)")
+                        print(f"[PolicyManager] 🎯 Only inference model pruned (sparsity: {sparsity:.1f}%), training model stays full")
                 
                 return False  # Mask pruning doesn't change structure
             
@@ -609,19 +568,11 @@ class PolicyManager:
     
     def _apply_masks_to_training(self, masks: Dict[str, torch.Tensor]):
         """
-        Apply masks to training model (for "Both Pruned" mode)
+        Apply masks to training model.
         
-        This is ONLY called when prune_training_model=True
-        
-        In "Both Pruned" mode:
-            - Training and inference models both use pruned weights
-            - Strictly on-policy (no Teacher-Student distribution mismatch)
-            - Trains on reduced capacity
-        
-        In "Teacher-Student" mode (default):
-            - This method is NOT called
-            - Training model stays full
-            - Only inference model is pruned
+        This is ONLY called when prune_training_model=True.
+        When True: Both training and inference models use pruned weights (strictly on-policy).
+        When False: Only inference model is pruned, training model stays full.
         """
         if masks is None:
             return
@@ -642,6 +593,8 @@ class PolicyManager:
             apply_masks_to_backbone(training_backbone, masks, inference_only=False)
             
             # Also apply to all remote workers
+            # Note: Remote workers primarily do rollout (inference), not training
+            # So we use inference_only=True to avoid forward hook overhead
             workers = self.algo.workers.remote_workers()
             if workers:
                 def _apply_to_worker(worker):
@@ -651,8 +604,9 @@ class PolicyManager:
                             if hasattr(backbone, '_orig_mod'):
                                 backbone = backbone._orig_mod
                             from compression.mask_prune_compressor import apply_masks_to_backbone
-                            # inference_only=False because these are training workers
-                            apply_masks_to_backbone(backbone, masks, inference_only=False)
+                            # inference_only=True: Remote workers primarily do rollout (no optimizer updates)
+                            # This avoids forward pre-hook overhead during inference!
+                            apply_masks_to_backbone(backbone, masks, inference_only=True)
                         except Exception as exc:
                             print(f"[PolicyManager] ⚠️ Failed to apply training masks on worker: {exc}")
                         return 1
@@ -697,14 +651,10 @@ class PolicyManager:
         Reapply masks after weight synchronization.
         
         Why this is needed:
-            - When we sync weights from training model (Teacher) to inference model (Student)
+            - When we sync weights from training model to inference model
             - The sync operation (push_weight_update) overwrites ALL weights
             - This includes masked weights, which get restored to non-zero values
             - We must reapply masks to keep inference model pruned
-        
-        Critical: This is ONLY for inference model (Student)
-            - Training model (Teacher) NEVER gets masked (unless prune_training_model=True)
-            - This maintains Teacher-Student separation
         """
         if not hasattr(self, '_current_masks') or self._current_masks is None:
             return  # No masks to apply, skip
@@ -712,17 +662,14 @@ class PolicyManager:
         try:
             from compression.mask_prune_compressor import apply_masks_to_backbone
             
-            # Get inference model (Student)
+            # Get inference model
             infer_model = self.current_infer_model
             if hasattr(infer_model, "_orig_mod"):
                 infer_model = infer_model._orig_mod
             
-            # ✅ Apply masks ONLY to inference model (Student)
+            # Apply masks to inference model
             # Use inference_only=True to skip hooks (inference model doesn't train)
             apply_masks_to_backbone(infer_model, self._current_masks, inference_only=True)
-            
-            # ❌ DON'T apply to training model! Training model stays full (Teacher)
-            # Unless prune_training_model=True, in which case it's handled separately
             
         except Exception as exc:
             # Fail silently - don't crash training

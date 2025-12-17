@@ -1,0 +1,248 @@
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   1 | Reward=18.11 | Samples=2000 | Total=0.25s (Rollout=0.24s, Train=0.01s) | Thrpt=8012.9/s | Compile=None | Swap=None | Infer=0.031s | Env=0.205s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   2 | Reward=21.24 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9026.7/s | Compile=None | Swap=None | Infer=0.028s | Env=0.180s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   3 | Reward=22.17 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=8967.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.180s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   4 | Reward=20.48 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9124.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.179s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   5 | Reward=24.48 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.01s) | Thrpt=9268.6/s | Compile=None | Swap=None | Infer=0.028s | Env=0.176s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   6 | Reward=26.26 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9221.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.178s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   7 | Reward=22.92 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9436.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.174s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   8 | Reward=28.21 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9542.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.171s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch   9 | Reward=25.95 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9533.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.171s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  10 | Reward=29.06 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9649.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  11 | Reward=37.30 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9609.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  12 | Reward=27.97 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9433.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.173s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  13 | Reward=33.75 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9655.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  14 | Reward=35.15 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9451.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.174s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  15 | Reward=39.75 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9333.8/s | Compile=None | Swap=None | Infer=0.028s | Env=0.174s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  16 | Reward=33.33 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9587.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  17 | Reward=40.94 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9665.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  18 | Reward=43.17 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9526.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  19 | Reward=38.33 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9439.1/s | Compile=None | Swap=None | Infer=0.028s | Env=0.173s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  20 | Reward=43.95 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.01s) | Thrpt=9254.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.176s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  21 | Reward=41.18 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9578.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  22 | Reward=55.03 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9638.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  23 | Reward=48.73 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9634.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  24 | Reward=46.47 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.01s) | Thrpt=9744.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  25 | Reward=46.16 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9441.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.172s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  26 | Reward=51.67 | Samples=2000 | Total=0.22s (Rollout=0.21s, Train=0.01s) | Thrpt=9167.8/s | Compile=None | Swap=None | Infer=0.029s | Env=0.178s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  27 | Reward=52.06 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9348.1/s | Compile=None | Swap=None | Infer=0.028s | Env=0.174s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  28 | Reward=53.38 | Samples=2000 | Total=0.29s (Rollout=0.28s, Train=0.01s) | Thrpt=6892.6/s | Compile=None | Swap=None | Infer=0.035s | Env=0.242s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  29 | Reward=52.05 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9412.3/s | Compile=None | Swap=None | Infer=0.028s | Env=0.173s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  30 | Reward=66.59 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.01s) | Thrpt=9696.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune]  Step 1: Sparsity 1.5% (target 1.5%) | Time: 0.019s
+[CompileCompressor] 🔧 Compiled new model (0.0014s)
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  31 | Reward=60.21 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.01s) | Thrpt=9392.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.173s
+[PolicyManager] 🔥 Both training and inference models pruned (sparsity: 1.5%)
+[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)
+[PolicyManager] 📊 Training model sparsity verified: 1.5%
+[PolicyManager] 📦 Preparing to broadcast 4 pruning masks
+[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks
+[AsyncCompile] 🔁 Swapped inference model.
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  32 | Reward=62.72 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9318.8/s | Compile=0.0014388561248779297 | Swap=0.007131099700927734 | Infer=0.027s | Env=0.171s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  33 | Reward=64.68 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9517.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  34 | Reward=65.26 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9362.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  35 | Reward=76.42 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9509.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  36 | Reward=81.38 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9567.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  37 | Reward=74.30 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9462.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  38 | Reward=80.54 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9596.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  39 | Reward=104.06 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9631.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  40 | Reward=99.24 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9516.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  41 | Reward=85.13 | Samples=2000 | Total=0.29s (Rollout=0.19s, Train=0.10s) | Thrpt=6853.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  42 | Reward=84.04 | Samples=2000 | Total=0.24s (Rollout=0.22s, Train=0.02s) | Thrpt=8421.8/s | Compile=None | Swap=None | Infer=0.032s | Env=0.187s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  43 | Reward=96.04 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9416.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  44 | Reward=95.67 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9519.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  45 | Reward=104.70 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9326.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.170s
+[MaskPrune]  Step 2: Sparsity 3.0% (target 3.0%) | Time: 0.018s
+[CompileCompressor] 🔄 Forcing recompilation: periodic (every 2 compressions)
+[CompileCompressor] 🔧 Compiled new model (0.0008s)
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  46 | Reward=132.71 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9433.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[PolicyManager] 🔥 Both training and inference models pruned (sparsity: 3.0%)
+[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)
+[PolicyManager] 📊 Training model sparsity verified: 3.0%
+[PolicyManager] 📦 Preparing to broadcast 4 pruning masks
+[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks
+[AsyncCompile] 🔁 Swapped inference model.
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  47 | Reward=127.79 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9575.9/s | Compile=0.0007841587066650391 | Swap=0.006386756896972656 | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  48 | Reward=131.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9578.0/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  49 | Reward=114.06 | Samples=2000 | Total=0.22s (Rollout=0.19s, Train=0.03s) | Thrpt=9039.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  50 | Reward=128.71 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=8957.9/s | Compile=None | Swap=None | Infer=0.028s | Env=0.177s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  51 | Reward=136.31 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=8981.6/s | Compile=None | Swap=None | Infer=0.029s | Env=0.176s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  52 | Reward=131.53 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9457.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  53 | Reward=143.27 | Samples=2000 | Total=0.26s (Rollout=0.25s, Train=0.02s) | Thrpt=7568.2/s | Compile=None | Swap=None | Infer=0.034s | Env=0.213s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  54 | Reward=108.28 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9698.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  55 | Reward=163.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9629.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  56 | Reward=161.07 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9561.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  57 | Reward=164.20 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9518.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  58 | Reward=176.18 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9649.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  59 | Reward=249.78 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9644.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  60 | Reward=234.62 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9723.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.162s
+[MaskPrune]  Step 3: Sparsity 4.5% (target 4.5%) | Time: 0.018s
+[CompileCompressor] ♻️  Reused compiled model (structure unchanged, 0.0001s to update weights)
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  61 | Reward=212.90 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9132.3/s | Compile=None | Swap=None | Infer=0.028s | Env=0.174s
+[PolicyManager] 🔥 Both training and inference models pruned (sparsity: 4.5%)
+[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)
+[PolicyManager] 📊 Training model sparsity verified: 4.5%
+[PolicyManager] 📦 Preparing to broadcast 4 pruning masks
+[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  62 | Reward=229.56 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9453.0/s | Compile=0.00011491775512695312 | Swap=0.006590843200683594 | Infer=0.027s | Env=0.167s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  63 | Reward=224.78 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9689.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.162s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  64 | Reward=160.33 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9665.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  65 | Reward=171.56 | Samples=2000 | Total=0.28s (Rollout=0.26s, Train=0.02s) | Thrpt=7172.9/s | Compile=None | Swap=None | Infer=0.036s | Env=0.225s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  66 | Reward=194.92 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9408.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  67 | Reward=247.86 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9738.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.160s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  68 | Reward=212.40 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9578.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  69 | Reward=196.30 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9640.8/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  70 | Reward=209.44 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9625.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  71 | Reward=228.50 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9165.5/s | Compile=None | Swap=None | Infer=0.028s | Env=0.171s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  72 | Reward=176.22 | Samples=2000 | Total=0.28s (Rollout=0.26s, Train=0.02s) | Thrpt=7046.1/s | Compile=None | Swap=None | Infer=0.040s | Env=0.225s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  73 | Reward=233.62 | Samples=2000 | Total=0.23s (Rollout=0.22s, Train=0.02s) | Thrpt=8540.4/s | Compile=None | Swap=None | Infer=0.030s | Env=0.186s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  74 | Reward=267.38 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9122.9/s | Compile=None | Swap=None | Infer=0.028s | Env=0.174s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  75 | Reward=268.44 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9518.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune]  Step 4: Sparsity 6.0% (target 6.0%) | Time: 0.019s
+[CompileCompressor] 🔄 Forcing recompilation: periodic (every 2 compressions)
+[CompileCompressor] 🔧 Compiled new model (0.0008s)
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  76 | Reward=185.27 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9490.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[PolicyManager] 🔥 Both training and inference models pruned (sparsity: 6.0%)
+[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)
+[PolicyManager] 📊 Training model sparsity verified: 6.0%
+[PolicyManager] 📦 Preparing to broadcast 4 pruning masks
+[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks
+[AsyncCompile] 🔁 Swapped inference model.
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  77 | Reward=214.67 | Samples=2000 | Total=0.26s (Rollout=0.24s, Train=0.02s) | Thrpt=7779.0/s | Compile=0.0008428096771240234 | Swap=0.00640106201171875 | Infer=0.027s | Env=0.212s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  78 | Reward=171.89 | Samples=2000 | Total=0.26s (Rollout=0.24s, Train=0.02s) | Thrpt=7786.6/s | Compile=None | Swap=None | Infer=0.052s | Env=0.188s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  79 | Reward=242.22 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9503.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  80 | Reward=255.75 | Samples=2000 | Total=0.24s (Rollout=0.22s, Train=0.02s) | Thrpt=8426.6/s | Compile=None | Swap=None | Infer=0.030s | Env=0.190s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  81 | Reward=222.33 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9505.2/s | Compile=None | Swap=None | Infer=0.028s | Env=0.166s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  82 | Reward=189.75 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9648.9/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  83 | Reward=294.80 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9288.2/s | Compile=None | Swap=None | Infer=0.028s | Env=0.169s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  84 | Reward=283.83 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9399.5/s | Compile=None | Swap=None | Infer=0.027s | Env=0.168s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  85 | Reward=251.00 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9570.3/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  86 | Reward=272.88 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9676.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  87 | Reward=234.75 | Samples=2000 | Total=0.22s (Rollout=0.20s, Train=0.02s) | Thrpt=9025.4/s | Compile=None | Swap=None | Infer=0.028s | Env=0.176s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  88 | Reward=218.75 | Samples=2000 | Total=0.26s (Rollout=0.25s, Train=0.02s) | Thrpt=7571.1/s | Compile=None | Swap=None | Infer=0.032s | Env=0.216s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  89 | Reward=244.80 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9561.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  90 | Reward=167.36 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9577.2/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune]  Step 5: Sparsity 7.5% (target 7.5%) | Time: 0.020s
+[CompileCompressor] ♻️  Reused compiled model (structure unchanged, 0.0001s to update weights)
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  91 | Reward=248.38 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9528.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[PolicyManager] 🔥 Both training and inference models pruned (sparsity: 7.5%)
+[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)
+[PolicyManager] 📊 Training model sparsity verified: 7.5%
+[PolicyManager] 📦 Preparing to broadcast 4 pruning masks
+[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  92 | Reward=292.57 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9631.5/s | Compile=0.00012111663818359375 | Swap=0.007069110870361328 | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  93 | Reward=279.67 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9566.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.164s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  94 | Reward=249.22 | Samples=2000 | Total=0.21s (Rollout=0.20s, Train=0.02s) | Thrpt=9338.9/s | Compile=None | Swap=None | Infer=0.028s | Env=0.168s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  95 | Reward=302.57 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9665.4/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  96 | Reward=329.33 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9741.7/s | Compile=None | Swap=None | Infer=0.027s | Env=0.162s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  97 | Reward=255.25 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9604.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.165s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  98 | Reward=185.30 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9659.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.163s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch  99 | Reward=218.78 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9749.1/s | Compile=None | Swap=None | Infer=0.027s | Env=0.162s
+[MaskPrune] 📸 Snapshot taken - Training model is FULL (not pruned)
+[ASYNC] Epoch 100 | Reward=219.50 | Samples=2000 | Total=0.21s (Rollout=0.19s, Train=0.02s) | Thrpt=9547.6/s | Compile=None | Swap=None | Infer=0.027s | Env=0.166s
+
+=== Summary (async) ===
+Epochs: 100
+Reward mean (avg over epochs): 139.28
+Total time (avg per epoch): 0.22s
+  Rollout time avg: 0.20s | Train time avg: 0.02s
+Throughput (avg samples/s): 9260.7
+Compile latency (avg when available): 0.001s

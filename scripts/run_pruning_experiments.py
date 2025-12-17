@@ -2,19 +2,14 @@
 运行剪枝实验脚本
 
 用法：
-    # 运行基础实验（baseline vs compile vs prune vs prune+compile）
     python scripts/run_pruning_experiments.py --experiment basic
-    
-    # 运行剪枝率对比实验
+
     python scripts/run_pruning_experiments.py --experiment ratios
     
-    # 运行剪枝策略对比实验
     python scripts/run_pruning_experiments.py --experiment strategies
     
-    # 运行触发频率对比实验
     python scripts/run_pruning_experiments.py --experiment freq
     
-    # 自定义参数
     python scripts/run_pruning_experiments.py --experiment basic --epochs 300 --hidden-dim 512
 """
 
@@ -225,19 +220,17 @@ def main():
     parser.add_argument("--prune-ratio", type=float, default=None, help="Default pruning ratio (default: from config_pruning.py)")
     parser.add_argument("--seed", type=int, default=43, help="Random seed")
     parser.add_argument("--device", type=str, default="cpu", help="Device (cpu or cuda:0)")
-    parser.add_argument("--wandb", action="store_true", help="Enable Weights & Biases logging")
-    parser.add_argument("--wandb-project", type=str, default="rllib-accelerator-pruning")
+    parser.add_argument("--wandb", action="store_true", help="Enable Weights & Biases logging (overrides config)")
+    parser.add_argument("--wandb-project", type=str, default="rllib-accelerator-pruning", help="W&B project name")
     
     args = parser.parse_args()
     
     # 初始化 Ray
     ray.init(include_dashboard=False)
     
-    # 加载默认超参数
     from config_pruning import DEFAULT_HPARAMS
     hparams = copy.deepcopy(DEFAULT_HPARAMS)
     
-    # ✅ 应用命令行参数（只有在明确指定时才覆盖）
     if args.epochs is not None:
         hparams["num_epochs"] = args.epochs
     if args.hidden_dim is not None:
@@ -247,19 +240,18 @@ def main():
     if args.prune_ratio is not None:
         hparams["prune_ratio"] = args.prune_ratio
     
-    # 这些参数总是覆盖
     hparams["seed"] = args.seed
     hparams["device"] = args.device
-    hparams["use_wandb"] = args.wandb
+    
+    if args.wandb:
+        hparams["use_wandb"] = True
+    
     hparams["wandb_project"] = args.wandb_project
     hparams["wandb_group"] = f"pruning_{args.experiment}_layer={hparams['hidden_depth']}_dim={hparams['hidden_dim']}"
     
-    # 这些参数总是覆盖
-    hparams["seed"] = args.seed
-    hparams["device"] = args.device
-    hparams["use_wandb"] = args.wandb
-    hparams["wandb_project"] = args.wandb_project
-    hparams["wandb_group"] = f"pruning_{args.experiment}_layer={hparams['hidden_depth']}_dim={hparams['hidden_dim']}"
+    if "wandb_tags" not in hparams:
+        hparams["wandb_tags"] = []
+    hparams["wandb_tags"].append(f"exp:{args.experiment}")
     
     device = resolve_device(hparams["device"])
     apply_global_seed(hparams.get("seed"))
@@ -271,7 +263,6 @@ def main():
     
     hidden_layers = [hparams["hidden_dim"]] * hparams["hidden_depth"]
     
-    # 获取实验配置
     experiments = get_experiments(args.experiment)
     
     for exp in experiments:
@@ -279,7 +270,6 @@ def main():
         print(f"Running: {exp['name']} ({exp['mode'].value})")
         print(f"{'='*60}")
         
-        # 应用实验特定的参数覆盖
         exp_hparams = copy.deepcopy(hparams)
         if "_prune_ratio_override" in exp:
             exp_hparams["prune_ratio"] = exp["_prune_ratio_override"]
@@ -305,7 +295,6 @@ def main():
         else:
             infer_index = -1
 
-        # ✅ 使用 DEFAULT_HPARAMS 中的 trigger_every（如果实验配置中为 None）
         trigger_every = exp.get("trigger_every")
         if trigger_every is None:
             trigger_every = exp_hparams.get("trigger_every", 15)
@@ -330,11 +319,15 @@ def main():
                 "experiment_type": args.experiment,
                 "env_id": exp_hparams["env_id"],
                 "group": exp_hparams.get("wandb_group"),
+                "tags": exp_hparams.get("wandb_tags", []),
                 "prune_ratio": exp_hparams.get("prune_ratio"),
-                "prune_strategy": exp_hparams.get("prune_strategy"),
+                "prune_technique": exp_hparams.get("prune_technique"),
+                "prune_training_model": exp_hparams.get("prune_training_model"),
                 "hidden_dim": exp_hparams["hidden_dim"],
                 "hidden_depth": exp_hparams["hidden_depth"],
-                "trigger_every": trigger_every,  # ← 记录实际使用的值
+                "trigger_every": trigger_every,
+                "seed": exp_hparams["seed"],
+                "compile_backend": exp_hparams.get("compile_backend"),
             },
             async_warmup=exp.get("async_warmup", False),
         )

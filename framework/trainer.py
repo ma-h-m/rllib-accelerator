@@ -15,6 +15,27 @@ from ray.rllib.policy.sample_batch import concat_samples, SampleBatch, MultiAgen
 from compression.base import BaseCompressor
 from framework.policy_manager import PolicyManager, CompileMode
 
+# Import wandb at module level to avoid conflicts with local wandb/ directory
+try:
+    import wandb as WANDB
+    
+    # Verify this is the real wandb package (not a local directory)
+    if not hasattr(WANDB, 'init'):
+        raise ImportError("Imported 'wandb' doesn't have 'init' method - likely importing local wandb/ directory instead of the package")
+    
+    # Configure wandb to use wandb_logs directory
+    WANDB_DIR = os.path.join(os.getcwd(), "wandb_logs")
+    os.makedirs(WANDB_DIR, exist_ok=True)
+    os.environ["WANDB_DIR"] = WANDB_DIR
+    
+    # Get version info
+    version = getattr(WANDB, '__version__', 'unknown')
+    print(f"[Trainer] ✅ wandb imported successfully, version: {version}")
+    
+except ImportError as e:
+    print(f"[Trainer] ❌ Failed to import wandb: {e}")
+    WANDB = None
+
 
 class Trainer:
     """
@@ -74,29 +95,32 @@ class Trainer:
 
         self.wandb_run = None
         if wandb_enabled and wandb_project:
-            try:
-                import wandb
-                run_name = wandb_run_name or f"{compile_mode.value}_{timestamp}"
-                cfg = {
-                    "compile_mode": compile_mode.value,
-                    "device": str(device),
-                    "trigger_every": trigger_every,
-                    "enable_diff_check": enable_diff_check,
-                }
-                group = None
-                if wandb_config:
-                    group = wandb_config.pop("group", None)
-                    cfg.update(wandb_config)
-                self.wandb_run = wandb.init(
-                    project=wandb_project,
-                    name=run_name,
-                    config=cfg,
-                    group=group,
-                )
-                self._wandb = wandb
-            except ImportError:
+            if WANDB is None:
                 print("[Trainer] ⚠️ 未检测到 wandb，跳过云端日志。")
                 self.wandb_run = None
+            else:
+                try:
+                    run_name = wandb_run_name or f"{compile_mode.value}_{timestamp}"
+                    cfg = {
+                        "compile_mode": compile_mode.value,
+                        "device": str(device),
+                        "trigger_every": trigger_every,
+                        "enable_diff_check": enable_diff_check,
+                    }
+                    group = None
+                    if wandb_config:
+                        group = wandb_config.pop("group", None)
+                        cfg.update(wandb_config)
+                    self.wandb_run = WANDB.init(
+                        project=wandb_project,
+                        name=run_name,
+                        config=cfg,
+                        group=group,
+                    )
+                    self._wandb = WANDB
+                except Exception as e:
+                    print(f"[Trainer] ⚠️ wandb 初始化失败: {e}，跳过云端日志。")
+                    self.wandb_run = None
         elif wandb_enabled and not wandb_project:
             print("[Trainer] ⚠️ 未提供 wandb 项目名，跳过云端日志。")
 

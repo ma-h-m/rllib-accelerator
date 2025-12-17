@@ -1,0 +1,95 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            pfth2vjl4ussf3tyv0qpvep10h03it9u:
+                apple:
+                    ecpuCores: 4
+                    gpuCores: 16
+                    memoryGb: 16
+                    name: Apple M2 Pro
+                    pcpuCores: 6
+                    ramTotalBytes: "17179869184"
+                    swapTotalBytes: "3221225472"
+                args:
+                    - --experiment
+                    - basic
+                    - --seed
+                    - "43"
+                    - --wandb
+                    - --wandb-project
+                    - rllib-accelerator
+                codePath: scripts/run_pruning_experiments.py
+                codePathLocal: scripts/run_pruning_experiments.py
+                cpu_count: 10
+                cpu_count_logical: 10
+                disk:
+                    /:
+                        total: "494384795648"
+                        used: "256105607168"
+                email: fm2859@columbia.edu
+                executable: /opt/anaconda3/envs/rllib-env/bin/python
+                git:
+                    commit: 820ece4e2acdb2f2072ee598041a0916decb6d73
+                    remote: https://github.com/ma-h-m/rllib-accelerator.git
+                host: fionas-MacBook-Pro-2.local
+                memory:
+                    total: "17179869184"
+                os: macOS-26.1-arm64-arm-64bit
+                program: /Users/fionameng/Documents/rllib-accelerator/scripts/run_pruning_experiments.py
+                python: CPython 3.10.19
+                root: /Users/fionameng/Documents/rllib-accelerator/wandb_logs
+                startedAt: "2025-12-17T03:08:33.099600Z"
+                writerId: pfth2vjl4ussf3tyv0qpvep10h03it9u
+        m: []
+        python_version: 3.10.19
+        t:
+            "1":
+                - 1
+                - 30
+            "2":
+                - 1
+                - 30
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.10.19
+            "5": 0.23.1
+            "12": 0.23.1
+            "13": darwin-arm64
+compile_backend:
+    value: inductor
+compile_mode:
+    value: async
+device:
+    value: cpu
+enable_diff_check:
+    value: false
+env_id:
+    value: CartPole-v1
+experiment:
+    value: async_compile
+experiment_type:
+    value: basic
+hidden_depth:
+    value: 4
+hidden_dim:
+    value: 256
+prune_ratio:
+    value: 0.15
+prune_technique:
+    value: magnitude
+prune_training_model:
+    value: true
+seed:
+    value: 43
+tags:
+    value:
+        - pruning
+        - compression
+        - rllib
+        - exp:basic
+trigger_every:
+    value: 15

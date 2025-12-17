@@ -25,9 +25,14 @@ def apply_masks_to_backbone(backbone: PolicyBackbone, masks: Dict[str, torch.Ten
     
     Performance Note:
         - inference_only=True: ~0% overhead (just zeros out weights)
-        - inference_only=False: ~2-3% overhead (adds gradient hooks)
+        - inference_only=False: ~2-3% overhead (adds gradient hooks + forward hooks)
         - Only use inference_only=False for models that actually do backward passes!
     """
+    # Store masks on the backbone for reapplication
+    if not hasattr(backbone, '_pruning_masks'):
+        backbone._pruning_masks = {}
+    backbone._pruning_masks.update(masks)
+    
     for i, layer in enumerate(backbone.hidden_layers):
         weight_mask_name = f"hidden_layers_{i}_weight_mask"
         if weight_mask_name in masks:
@@ -55,6 +60,36 @@ def apply_masks_to_backbone(backbone: PolicyBackbone, masks: Dict[str, torch.Ten
                 # Register new hook
                 handle = layer.weight.register_hook(make_mask_hook(mask))
                 layer.weight._mask_hook_handle = handle
+                
+                # 3. Add forward pre-hook to reapply masks before forward pass
+                # This ensures masks persist even after optimizer updates (e.g., momentum)
+                # 
+                # ⚠️ Performance Note: This adds overhead, but necessary for training!
+                # Inference workers should use inference_only=True to avoid this.
+                # 
+                # Optimization: Use counter to only reapply every N forwards
+                def make_forward_pre_hook(layer_idx, mask):
+                    # Cache mask on device and use counter to reduce overhead
+                    mask_on_device = mask.to(layer.weight.device)
+                    counter = [0]  # Mutable counter
+                    reapply_interval = 10  # Only reapply every N forwards
+                    
+                    def hook(module, input):
+                        counter[0] += 1
+                        if counter[0] >= reapply_interval:
+                            counter[0] = 0
+                            # Reapply mask
+                            with torch.no_grad():
+                                module.weight.data *= mask_on_device
+                    return hook
+                
+                # Remove previous forward hook (if exists)
+                if hasattr(layer, '_mask_forward_hook_handle'):
+                    layer._mask_forward_hook_handle.remove()
+                
+                # Register forward pre-hook
+                forward_handle = layer.register_forward_pre_hook(make_forward_pre_hook(i, mask))
+                layer._mask_forward_hook_handle = forward_handle
     
     return backbone
 
@@ -74,14 +109,6 @@ class MaskPruneCompressor(BaseCompressor):
         schedule: str = "iterative",   # "iterative", "oneshot"
         prune_steps: int = 10,         # Total steps for iterative pruning
     ):
-        """
-        Args:
-            prune_ratio: Target pruning ratio (0.2 = remove 20% of weights)
-            diff_threshold: Weight change threshold, re-prune only if exceeded
-            technique: Pruning technique - "magnitude" (weight size), "random", "gradient"
-            schedule: Pruning schedule - "iterative" (gradual), "oneshot" (one-time)
-            prune_steps: Total steps for iterative pruning (default 10 steps)
-        """
         self.prune_ratio = prune_ratio
         self.diff_threshold = diff_threshold
         self.technique = technique

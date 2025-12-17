@@ -29,12 +29,14 @@ backbone, applies the configured compressor(s), and broadcasts models/weights to
 rollout workers.
 
 ### Baseline (no compile)
+
 - `mode = CompileMode.NONE`.
 - `compressors = ["compile"]` but the compression pipeline is never triggered.
 - Trainer simply performs PPO rollouts/train steps and relies on RLlib's default
   `sync_weights()` to keep workers on-policy.
 
 ### Sync Compile
+
 - `mode = CompileMode.SYNC`.
 - At the end of each epoch (or whenever the trigger policy fires), the controller
   takes a snapshot, runs `torch.compile` synchronously, and immediately swaps the
@@ -43,6 +45,7 @@ rollout workers.
   compile latency; there is no overlap with rollout/learning time.
 
 ### Async Compile
+
 - `mode = CompileMode.ASYNC`.
 - The controller snapshots the training backbone and launches a background thread
   that compiles the model. At the start of the next epoch, `maybe_swap()` checks
@@ -54,12 +57,14 @@ rollout workers.
   behaves like the baseline with a faster forward path.
 
 ### Async Compile with Warmup
+
 - Same as async compile, but `async_warmup=True`.
 - After swapping the module the first time, every worker runs a dummy forward pass
   (`warmup_compiled_backbone()`) so that PyTorch captures the graph before real
   rollouts. This hides the first-iteration compilation overhead.
 
 ### Async Quant with Warmup
+
 - `compressors = ["quant"]` (dynamic quantization on linear layers).
 - Quantized modules cannot reuse training weights, so every swap transmits the full
   quantized backbone.
@@ -68,14 +73,14 @@ rollout workers.
 
 ## Benchmark & Plot Scripts
 
-| Script | Purpose |
-| --- | --- |
-| `scripts/benchmark_compile.py` | Micro-benchmark vanilla vs. `torch.compile` inference (CPU/GPU). |
-| `scripts/benchmark_quant.py` | Compare vanilla vs. dynamic quantized inference throughput (CPU). |
-| `results/none&sync&async/plot_times.py` | Plot total/rollout/train/inference time plus compile/swap latency for baseline vs. compile variants. Supports explicit file selection and image export. |
-| `results/compile&quant&baseline/quality_comparison_layer=4_dim=512/plot_rewards.py` | Plot smoothed reward curves for any subset of experiments (labels + files configurable). |
-| `results/compile&quant&baseline/plot_inference_bars.py` | Generate bar charts comparing rollout/inference time and throughput across the three inference-speed directories (`dim=512/1024/2048`). |
-| `results/compile&quant&baseline/plot_swap_latency.py` | Visualize swap latency measurements recorded in `swap_time_rec.csv`. |
+| Script                                                                              | Purpose                                                                                                                                                 |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/benchmark_compile.py`                                                      | Micro-benchmark vanilla vs. `torch.compile` inference (CPU/GPU).                                                                                        |
+| `scripts/benchmark_quant.py`                                                        | Compare vanilla vs. dynamic quantized inference throughput (CPU).                                                                                       |
+| `results/none&sync&async/plot_times.py`                                             | Plot total/rollout/train/inference time plus compile/swap latency for baseline vs. compile variants. Supports explicit file selection and image export. |
+| `results/compile&quant&baseline/quality_comparison_layer=4_dim=512/plot_rewards.py` | Plot smoothed reward curves for any subset of experiments (labels + files configurable).                                                                |
+| `results/compile&quant&baseline/plot_inference_bars.py`                             | Generate bar charts comparing rollout/inference time and throughput across the three inference-speed directories (`dim=512/1024/2048`).                 |
+| `results/compile&quant&baseline/plot_swap_latency.py`                               | Visualize swap latency measurements recorded in `swap_time_rec.csv`.                                                                                    |
 
 ## Logging
 
@@ -102,6 +107,122 @@ rollout workers.
 - As of this implementation, we focus on CPU rollouts. Training can optionally
   run on GPU; compilation/quantization pipelines run on whichever device the
   backbone resides.
+
+## Pruning Experiments
+
+This repository includes comprehensive pruning experiments that combine **mask-based pruning** with **torch.compile** acceleration. Pruning reduces model size and inference cost while maintaining training quality.
+
+### Quick Start
+
+```bash
+# Make sure wandb is installed in your environment
+conda activate rllib-env  # or your target environment
+pip install wandb
+
+# Run basic pruning experiments
+python scripts/run_pruning_experiments.py --experiment basic --seed 43 --wandb --wandb-project your-project-name
+```
+
+### Pruning Modes
+
+The pruning system supports two distinct training architectures:
+
+#### 1. Both Pruned Mode (`prune_training_model=True`)
+
+- **Training model**: Pruned
+- **Inference model**: Pruned (same masks applied)
+- Both training and inference use the pruned structure
+- More memory efficient but may impact learning capacity
+- Fully on-policy: training and inference use identical pruned weights
+
+### Configuration
+
+All pruning hyperparameters are defined in `config_pruning.py`:
+
+```python
+DEFAULT_HPARAMS = {
+    # Pruning settings
+    "prune_ratio": 0.15,              # Target sparsity (15% of weights pruned)
+    "prune_technique": "magnitude",    # Pruning strategy
+    "prune_schedule": "iterative",     # Gradual pruning over time
+    "prune_steps": 15,                 # Number of pruning steps
+    "prune_training_model": True,      # Both Pruned vs Teacher-Student
+
+    # Compression timing
+    "trigger_every": 15,               # Prune every N epochs
+    "min_epoch_before_compress": 30,   # Wait before first pruning
+
+    # Model architecture
+    "hidden_dim": 256,
+    "hidden_depth": 4,
+
+    # Wandb logging
+    "use_wandb": True,
+    "wandb_project": "rllib-accelerator",
+    ...
+}
+```
+
+### Available Experiments
+
+Run different experiment types with the `--experiment` flag:
+
+| Experiment Type | Description                                        | Command                   |
+| --------------- | -------------------------------------------------- | ------------------------- |
+| `basic`         | Compare baseline, compile, prune, prune+compile    | `--experiment basic`      |
+| `ratios`        | Test different pruning ratios (0.1, 0.2, 0.3, 0.4) | `--experiment ratios`     |
+| `strategies`    | Compare magnitude vs. random pruning               | `--experiment strategies` |
+| `freq`          | Test different trigger frequencies (5, 10, 15, 20) | `--experiment freq`       |
+| `sizes`         | Test across model sizes (256, 512, 1024, 2048)     | `--experiment sizes`      |
+
+### Example Commands
+
+```bash
+# Basic comparison with wandb logging
+python scripts/run_pruning_experiments.py \
+    --experiment basic \
+    --seed 43 \
+    --wandb \
+    --wandb-project rllib-accelerator
+
+# Test different pruning ratios
+python scripts/run_pruning_experiments.py \
+    --experiment ratios \
+    --epochs 150 \
+    --seed 42
+
+# Custom configuration
+python scripts/run_pruning_experiments.py \
+    --experiment basic \
+    --epochs 200 \
+    --hidden-dim 512 \
+    --hidden-depth 6 \
+    --prune-ratio 0.2
+```
+
+### Plotting Results
+
+After running experiments, plot the results:
+
+```bash
+python scripts/plot_pruning_results.py --log-dir logs/pruning_basic
+```
+
+This generates comparison plots for:
+
+- Reward curves across experiments
+- Inference time comparison
+- Throughput comparison
+- Sparsity progression
+
+### Implementation Details
+
+- **Mask-based pruning**: Uses forward hooks to zero out pruned weights without changing model structure
+- **Iterative pruning**: Gradually increases sparsity over multiple compression steps
+- **Async architecture**: Pruning happens in background thread, doesn't block training
+- **Compile integration**: Pruned models are torch.compile'd for additional speedup
+- **Weight synchronization**: Training model weights are continuously synced to inference model
+- **Mask broadcasting**: Pruning masks are efficiently broadcast to all rollout workers
 
 ## Teacher–Student Training Prototype
 

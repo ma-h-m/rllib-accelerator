@@ -1,0 +1,25 @@
+2025-12-16 21:29:06,783 INFO    MainThread:67276 [wandb_setup.py:_flush():80] Current SDK version is 0.23.1
+2025-12-16 21:29:06,783 INFO    MainThread:67276 [wandb_setup.py:_flush():80] Configure stats pid to 67276
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_setup.py:_flush():80] Loading settings from /Users/fionameng/.config/wandb/settings
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_setup.py:_flush():80] Loading settings from /Users/fionameng/Documents/rllib-accelerator/wandb/settings
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_setup.py:_flush():80] Loading settings from environment variables
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_init.py:setup_run_log_directory():714] Logging user logs to /Users/fionameng/Documents/rllib-accelerator/wandb/offline-run-20251216_212906-4i5rarht/logs/debug.log
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_init.py:setup_run_log_directory():715] Logging internal logs to /Users/fionameng/Documents/rllib-accelerator/wandb/offline-run-20251216_212906-4i5rarht/logs/debug-internal.log
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_init.py:init():841] calling init triggers
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_init.py:init():846] wandb.init called with sweep_config: {}
+config: {'test': True, '_wandb': {}}
+2025-12-16 21:29:06,784 INFO    MainThread:67276 [wandb_init.py:init():889] starting backend
+2025-12-16 21:29:07,073 INFO    MainThread:67276 [wandb_init.py:init():892] sending inform_init request
+2025-12-16 21:29:07,106 INFO    MainThread:67276 [wandb_init.py:init():900] backend started and connected
+2025-12-16 21:29:07,128 INFO    MainThread:67276 [wandb_init.py:init():970] updated telemetry
+2025-12-16 21:29:07,145 INFO    MainThread:67276 [wandb_init.py:init():994] communicating run to backend with 90.0 second timeout
+2025-12-16 21:29:07,250 INFO    MainThread:67276 [wandb_init.py:init():1041] starting run threads in backend
+2025-12-16 21:29:07,449 INFO    MainThread:67276 [wandb_run.py:_console_start():2521] atexit reg
+2025-12-16 21:29:07,450 INFO    MainThread:67276 [wandb_run.py:_redirect():2369] redirect: wrap_raw
+2025-12-16 21:29:07,450 INFO    MainThread:67276 [wandb_run.py:_redirect():2438] Wrapping output streams.
+2025-12-16 21:29:07,450 INFO    MainThread:67276 [wandb_run.py:_redirect():2461] Redirects installed.
+2025-12-16 21:29:07,453 INFO    MainThread:67276 [wandb_init.py:init():1081] run started, returning control to user process
+2025-12-16 21:29:07,453 INFO    MainThread:67276 [wandb_run.py:_finish():2287] finishing run test-project/4i5rarht
+2025-12-16 21:29:07,454 INFO    MainThread:67276 [wandb_run.py:_atexit_cleanup():2486] got exitcode: 0
+2025-12-16 21:29:07,454 INFO    MainThread:67276 [wandb_run.py:_restore():2468] restore
+2025-12-16 21:29:07,454 INFO    MainThread:67276 [wandb_run.py:_restore():2474] restore done
