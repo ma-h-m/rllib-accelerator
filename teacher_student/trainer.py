@@ -71,11 +71,19 @@ class TeacherStudentTrainer:
             .environment(self.hparams["env_id"])
             .framework("torch")
             .training(**training_kwargs)
-            .rollouts(
+        )
+        
+        # 兼容不同版本的 Ray API
+        try:
+            cfg = cfg.env_runners(
+                num_env_runners=self.hparams["num_rollout_workers"],
+                rollout_fragment_length=self.hparams["rollout_fragment_length"],
+            )
+        except AttributeError:
+            cfg = cfg.rollouts(
                 num_rollout_workers=self.hparams["num_rollout_workers"],
                 rollout_fragment_length=self.hparams["rollout_fragment_length"],
             )
-        )
         seed = self.hparams.get("seed")
         if seed is not None:
             cfg.seed = seed

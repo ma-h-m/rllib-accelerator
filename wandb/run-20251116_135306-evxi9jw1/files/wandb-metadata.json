@@ -1,0 +1,24 @@
+{
+    "os": "macOS-26.1-arm64-arm-64bit",
+    "python": "3.11.14",
+    "heartbeatAt": "2025-11-16T18:53:08.174222",
+    "startedAt": "2025-11-16T18:53:06.722052",
+    "docker": null,
+    "cpu_count": 10,
+    "cuda": null,
+    "args": [
+        "quick"
+    ],
+    "state": "running",
+    "program": "/Users/fionameng/Documents/rllib-accelerator/pruning_ppo.py",
+    "codePath": "pruning_ppo.py",
+    "git": {
+        "remote": "https://github.com/ma-h-m/rllib-accelerator.git",
+        "commit": "2874047dc23f88f88197e983106b3843dfd6c7cd"
+    },
+    "email": "fionameng2001@gmail.com",
+    "root": "/Users/fionameng/Documents/rllib-accelerator",
+    "host": "fionas-MacBook-Pro.local",
+    "username": "fionameng",
+    "executable": "/opt/anaconda3/envs/rllib-env/bin/python"
+}

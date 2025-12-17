@@ -67,7 +67,7 @@ class CompressionPipeline:
         """
         do_fixed = self.policy.should_trigger_fixed(epoch)
         do_diff = self.policy.should_trigger_diff(
-            self.compressors, snapshot, self._last_snapshot
+            self.compressors, snapshot, self._last_snapshot, epoch
         )
         need_recompress = (do_fixed or do_diff)
 
@@ -84,10 +84,21 @@ class CompressionPipeline:
         outputs: List[Any] = []
         meta: Dict[str, Any] = {"skipped": False}
 
-        for compressor in self.compressors:
-            out, info = compressor.compress(snapshot)
+        # 链式执行：每个 compressor 接收前一个的输出
+        current_input = snapshot
+        
+        for idx, compressor in enumerate(self.compressors):
+            # 第一个 compressor 接收 snapshot
+            # 后续 compressor 接收前一个的输出
+            if idx == 0:
+                out, info = compressor.compress(snapshot)
+            else:
+                # 如果前一个输出是模型，让这个 compressor 直接处理
+                out, info = compressor.compress(current_input)
+            
             outputs.append(out)
             meta[compressor.__class__.__name__] = info
+            current_input = out  # 传递给下一个
 
         self._last_snapshot = snapshot
         self._last_outputs = outputs

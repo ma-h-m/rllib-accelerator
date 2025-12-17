@@ -1,0 +1,1 @@
+{"epoch": 25, "reward/mean": 445.59, "reward/max": 500.0, "reward/min": 183.0, "episode_len": 445.59, "sparsity/total": 0.0, "sparsity/fc1": 0.0, "sparsity/fc2": 0.0, "_timestamp": 1763318594.090796, "_runtime": 51.56564807891846, "_step": 24, "final/avg_reward": 431.50199999999995, "final/avg_max_reward": 500.0, "final/sparsity": 0.0, "_wandb": {"runtime": 50}}

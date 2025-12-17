@@ -38,7 +38,7 @@ def resolve_device(config_device: str):
 
 def build_config(hidden_layers, device: str, hparams):
     use_gpu = device.startswith("cuda") and torch.cuda.is_available()
-    return (
+    config = (
         PPOConfig()
         .environment(hparams["env_id"])
         .framework("torch")
@@ -55,11 +55,21 @@ def build_config(hidden_layers, device: str, hparams):
             train_batch_size=hparams["train_batch_size"],
             lr=hparams["lr"],
         )
-        .rollouts(
+    )
+    
+    # 兼容不同版本的 Ray API
+    try:
+        config = config.env_runners(
+            num_env_runners=hparams["num_rollout_workers"],
+            rollout_fragment_length=hparams["rollout_fragment_length"],
+        )
+    except AttributeError:
+        config = config.rollouts(
             num_rollout_workers=hparams["num_rollout_workers"],
             rollout_fragment_length=hparams["rollout_fragment_length"],
         )
-    )
+    
+    return config
 
 
 def main():

@@ -87,11 +87,30 @@ def build_config(hidden_layers, device: str, hparams):
         .framework("torch")
         .resources(num_gpus=1 if use_gpu else 0)
         .training(**training_kwargs)
-        .rollouts(
+    )
+    
+    # 禁用新的 API stack（兼容旧的 custom_model）
+    try:
+        config = config.api_stack(
+            enable_rl_module_and_learner=False,
+            enable_env_runner_and_connector_v2=False,
+        )
+    except AttributeError:
+        pass  # 旧版本没有这个方法
+    
+    # 兼容不同版本的 Ray API
+    try:
+        # Ray >= 2.10 使用 env_runners
+        config = config.env_runners(
+            num_env_runners=hparams["num_rollout_workers"],
+            rollout_fragment_length=hparams["rollout_fragment_length"],
+        )
+    except AttributeError:
+        # Ray < 2.10 使用 rollouts
+        config = config.rollouts(
             num_rollout_workers=hparams["num_rollout_workers"],
             rollout_fragment_length=hparams["rollout_fragment_length"],
         )
-    )
     seed = hparams.get("seed")
     if seed is not None:
         config.seed = seed
@@ -108,12 +127,47 @@ def build_compressors(exp_conf, device, hparams):
                     backend=hparams["compile_backend"],
                     diff_threshold=hparams["compile_diff_threshold"],
                     device=device,
+                    recompile_every=hparams.get("compile_recompile_every", 2),
+                    sparsity_change_threshold=hparams.get("compile_sparsity_change_threshold", 0.05),
                 )
             )
         elif name == "quant":
             comps.append(
                 QuantCompressor(
                     diff_threshold=hparams["quant_diff_threshold"],
+                )
+            )
+        elif name == "prune":
+            # Mask-Based (Unstructured) Pruning
+            from compression.mask_prune_compressor import MaskPruneCompressor
+            comps.append(
+                MaskPruneCompressor(
+                    prune_ratio=hparams.get("prune_ratio", 0.25),
+                    diff_threshold=hparams.get("prune_diff_threshold", 1e-3),
+                    technique=hparams.get("prune_technique", "magnitude"),
+                    schedule=hparams.get("prune_schedule", "iterative"),
+                    prune_steps=hparams.get("prune_steps", 10),
+                )
+            )
+        elif name == "prune+compile":
+            # Mask-Based Pruning + Compile
+            from compression.mask_prune_compressor import MaskPruneCompressor
+            comps.append(
+                MaskPruneCompressor(
+                    prune_ratio=hparams.get("prune_ratio", 0.25),
+                    diff_threshold=hparams.get("prune_diff_threshold", 1e-3),
+                    technique=hparams.get("prune_technique", "magnitude"),
+                    schedule=hparams.get("prune_schedule", "iterative"),
+                    prune_steps=hparams.get("prune_steps", 10),
+                )
+            )
+            comps.append(
+                CompileCompressor(
+                    backend=hparams["compile_backend"],
+                    diff_threshold=hparams["compile_diff_threshold"],
+                    device=device,
+                    recompile_every=hparams.get("compile_recompile_every", 2),
+                    sparsity_change_threshold=hparams.get("compile_sparsity_change_threshold", 0.05),
                 )
             )
         else:

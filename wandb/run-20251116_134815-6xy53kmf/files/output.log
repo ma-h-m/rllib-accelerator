@@ -1,0 +1,47 @@
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/rllib/algorithms/algorithm.py:483: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+`UnifiedLogger` will be removed in Ray 2.7.
+  return UnifiedLogger(config, logdir, loggers=None)
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `JsonLogger interface is deprecated in favor of the `ray.tune.json.JsonLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `CSVLogger interface is deprecated in favor of the `ray.tune.csv.CSVLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `TBXLogger interface is deprecated in favor of the `ray.tune.tensorboardx.TBXLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+[36m(pid=28440)[39m Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.[32m [repeated 2x across cluster]
+[36m(pid=28440)[39m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.[32m [repeated 2x across cluster]
+[36m(pid=28440)[39m Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.[32m [repeated 2x across cluster]
+[36m(pid=28440)[39m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.[32m [repeated 2x across cluster]
+2025-11-16 13:48:22,258	WARNING util.py:62 -- Install gputil for GPU system monitoring.
+======================================================================
+Experiment: magnitude_weight_oneshot_before_sparsity85
+Technique: magnitude_weight | Schedule: oneshot_before
+Target Prune Ratio: 85%
+======================================================================
+Epoch  1 | Reward:   20.34 | Max:   68.00 | Sparsity:  85.0%
+Epoch  2 | Reward:   31.98 | Max:  114.00 | Sparsity:  85.0%
+Epoch  3 | Reward:   46.00 | Max:  172.00 | Sparsity:  85.0%
+Epoch  4 | Reward:   70.30 | Max:  246.00 | Sparsity:  85.0%
+Epoch  5 | Reward:   96.53 | Max:  500.00 | Sparsity:  85.0%
+Epoch  6 | Reward:  131.57 | Max:  500.00 | Sparsity:  85.0%
+Epoch  7 | Reward:  162.09 | Max:  500.00 | Sparsity:  85.0%
+Epoch  8 | Reward:  194.91 | Max:  500.00 | Sparsity:  85.0%
+Epoch  9 | Reward:  228.56 | Max:  500.00 | Sparsity:  85.0%
+Epoch 10 | Reward:  254.98 | Max:  500.00 | Sparsity:  85.0%
+Epoch 11 | Reward:  290.81 | Max:  500.00 | Sparsity:  85.0%
+Epoch 12 | Reward:  322.99 | Max:  500.00 | Sparsity:  85.0%
+Epoch 13 | Reward:  353.52 | Max:  500.00 | Sparsity:  85.0%
+Epoch 14 | Reward:  376.87 | Max:  500.00 | Sparsity:  85.0%
+Epoch 15 | Reward:  401.82 | Max:  500.00 | Sparsity:  85.0%
+Epoch 16 | Reward:  418.46 | Max:  500.00 | Sparsity:  85.0%
+Epoch 17 | Reward:  437.82 | Max:  500.00 | Sparsity:  85.0%
+Epoch 18 | Reward:  443.05 | Max:  500.00 | Sparsity:  85.0%
+Epoch 19 | Reward:  452.95 | Max:  500.00 | Sparsity:  85.0%
+Epoch 20 | Reward:  450.03 | Max:  500.00 | Sparsity:  85.0%
+Epoch 21 | Reward:  450.85 | Max:  500.00 | Sparsity:  85.0%
+Epoch 22 | Reward:  447.41 | Max:  500.00 | Sparsity:  85.0%
+Epoch 23 | Reward:  422.07 | Max:  500.00 | Sparsity:  85.0%
+Epoch 24 | Reward:  387.44 | Max:  500.00 | Sparsity:  85.0%
+Epoch 25 | Reward:  355.14 | Max:  500.00 | Sparsity:  85.0%

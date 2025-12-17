@@ -39,7 +39,9 @@ class Trainer:
                  wandb_project: str = None,
                  wandb_run_name: str = None,
                  wandb_config: dict = None,
-                 async_warmup: bool = True):
+                 async_warmup: bool = True,
+                 min_epoch_before_compress: int = 0,
+                 prune_training_model: bool = False):
 
         # 构建 RLlib algorithm
         self.algo = config.build()
@@ -55,6 +57,8 @@ class Trainer:
             device=device,
             infer_output_index=infer_output_index,
             async_warmup=async_warmup,
+            min_epoch_before_compress=min_epoch_before_compress,
+            prune_training_model=prune_training_model,
         )
 
         # 日志
@@ -156,6 +160,7 @@ class Trainer:
         # (4) trigger（同步或异步触发压缩）
         # ==================================================================
         meta_trigger = self.manager.maybe_trigger(epoch)
+        
         step_time = (time.time() - t_rollout_start)
         throughput = sample_count / step_time
 
@@ -186,6 +191,17 @@ class Trainer:
         if reward_mean is None:
             reward_mean = rollout_reward_mean
 
+        # Extract sparsity info from compression meta
+        sparsity = None
+        if meta_swap and compressor_name:
+            info = meta_swap.get(compressor_name)
+            if info and "actual_sparsity" in info:
+                sparsity = info["actual_sparsity"]
+        if sparsity is None and meta_trigger and compressor_name:
+            info = meta_trigger.get(compressor_name)
+            if info and "actual_sparsity" in info:
+                sparsity = info["actual_sparsity"]
+        
         rec = {
             "epoch": epoch,
             "reward_mean": reward_mean,
@@ -196,6 +212,7 @@ class Trainer:
             "compile_latency": compile_latency,
             "swap_latency": swap_latency,
             "inference_time": self._collect_inference_time(),
+            "sparsity": sparsity,  # Add sparsity tracking
         }
         avg_infer = rec["inference_time"]
         workers = max(len(self.algo.workers.remote_workers()), 1)
@@ -249,12 +266,18 @@ class Trainer:
         compile_latencies = [s["compile_latency"] for s in self.stats if s["compile_latency"] is not None]
         compile_avg = sum(compile_latencies) / len(compile_latencies) if compile_latencies else None
 
+        # Calculate sparsity statistics
+        sparsities = [s.get("sparsity") for s in self.stats if s.get("sparsity") is not None]
+        final_sparsity = sparsities[-1] if sparsities else None
+
         print(f"\n=== Summary ({self.compile_mode.value}) ===")
         print(f"Epochs: {total_epochs}")
         print(f"Reward mean (avg over epochs): {reward_avg:.2f}")
         print(f"Total time (avg per epoch): {time_avg:.2f}s")
         print(f"  Rollout time avg: {rollout_avg:.2f}s | Train time avg: {train_avg:.2f}s")
         print(f"Throughput (avg samples/s): {throughput_avg:.1f}")
+        if final_sparsity is not None:
+            print(f"Final sparsity: {final_sparsity*100:.1f}%")
         if compile_avg is not None:
             print(f"Compile latency (avg when available): {compile_avg:.3f}s")
         else:

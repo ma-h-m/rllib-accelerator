@@ -388,13 +388,18 @@ if __name__ == "__main__":
         PPOConfig()
         .environment(env="CartPole-v1")
         .framework("torch")
-        .rollouts(num_rollout_workers=2)
         .training(
             model={"custom_model": "custom_policy"},
             train_batch_size=4000,
             lr=3e-4,
         )
     )
+    
+    # 兼容不同版本的 Ray API
+    try:
+        base_config = base_config.env_runners(num_env_runners=2)
+    except AttributeError:
+        base_config = base_config.rollouts(num_rollout_workers=2)
 
     trigger_every = 3
 

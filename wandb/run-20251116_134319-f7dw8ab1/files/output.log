@@ -1,0 +1,47 @@
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/rllib/algorithms/algorithm.py:483: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+`UnifiedLogger` will be removed in Ray 2.7.
+  return UnifiedLogger(config, logdir, loggers=None)
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `JsonLogger interface is deprecated in favor of the `ray.tune.json.JsonLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `CSVLogger interface is deprecated in favor of the `ray.tune.csv.CSVLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+/opt/anaconda3/envs/rllib-env/lib/python3.11/site-packages/ray/tune/logger/unified.py:53: RayDeprecationWarning: This API is deprecated and may be removed in future Ray releases. You could suppress this warning by setting env variable PYTHONWARNINGS="ignore::DeprecationWarning"
+The `TBXLogger interface is deprecated in favor of the `ray.tune.tensorboardx.TBXLoggerCallback` interface and will be removed in Ray 2.7.
+  self._loggers.append(cls(self.config, self.logdir, self.trial))
+[36m(pid=27958)[39m Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.[32m [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/ray-logging.html#log-deduplication for more options.)
+[36m(pid=27958)[39m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.[32m [repeated 2x across cluster]
+[36m(pid=27958)[39m Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.[32m [repeated 2x across cluster]
+[36m(pid=27958)[39m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.[32m [repeated 2x across cluster]
+2025-11-16 13:43:26,020	WARNING util.py:62 -- Install gputil for GPU system monitoring.
+======================================================================
+Experiment: magnitude_weight_oneshot_before_sparsity25
+Technique: magnitude_weight | Schedule: oneshot_before
+Target Prune Ratio: 25%
+======================================================================
+Epoch  1 | Reward:   22.36 | Max:   70.00 | Sparsity:  25.0%
+Epoch  2 | Reward:   35.20 | Max:  118.00 | Sparsity:  25.0%
+Epoch  3 | Reward:   47.87 | Max:  137.00 | Sparsity:  25.0%
+Epoch  4 | Reward:   63.57 | Max:  374.00 | Sparsity:  25.0%
+Epoch  5 | Reward:   90.44 | Max:  374.00 | Sparsity:  25.0%
+Epoch  6 | Reward:  121.06 | Max:  432.00 | Sparsity:  25.0%
+Epoch  7 | Reward:  152.67 | Max:  500.00 | Sparsity:  25.0%
+Epoch  8 | Reward:  180.29 | Max:  500.00 | Sparsity:  25.0%
+Epoch  9 | Reward:  210.72 | Max:  500.00 | Sparsity:  25.0%
+Epoch 10 | Reward:  240.01 | Max:  500.00 | Sparsity:  25.0%
+Epoch 11 | Reward:  272.96 | Max:  500.00 | Sparsity:  25.0%
+Epoch 12 | Reward:  302.01 | Max:  500.00 | Sparsity:  25.0%
+Epoch 13 | Reward:  324.19 | Max:  500.00 | Sparsity:  25.0%
+Epoch 14 | Reward:  349.82 | Max:  500.00 | Sparsity:  25.0%
+Epoch 15 | Reward:  374.78 | Max:  500.00 | Sparsity:  25.0%
+Epoch 16 | Reward:  393.92 | Max:  500.00 | Sparsity:  25.0%
+Epoch 17 | Reward:  409.69 | Max:  500.00 | Sparsity:  25.0%
+Epoch 18 | Reward:  424.13 | Max:  500.00 | Sparsity:  25.0%
+Epoch 19 | Reward:  437.85 | Max:  500.00 | Sparsity:  25.0%
+Epoch 20 | Reward:  443.36 | Max:  500.00 | Sparsity:  25.0%
+Epoch 21 | Reward:  447.24 | Max:  500.00 | Sparsity:  25.0%
+Epoch 22 | Reward:  435.28 | Max:  500.00 | Sparsity:  25.0%
+Epoch 23 | Reward:  415.84 | Max:  500.00 | Sparsity:  25.0%
+Epoch 24 | Reward:  393.81 | Max:  500.00 | Sparsity:  25.0%
+Epoch 25 | Reward:  381.06 | Max:  500.00 | Sparsity:  25.0%

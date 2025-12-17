@@ -15,7 +15,7 @@ torch, _ = try_import_torch()
 
 
 # ============================================================
-# Compile Mode（你的原始定义保留）
+# Compile Mode
 # ============================================================
 class CompileMode(Enum):
     NONE = "none"
@@ -24,19 +24,27 @@ class CompileMode(Enum):
 
 
 # ============================================================
-# PolicyManager —— glue RLlib & compression system
+# PolicyManager - Glue between RLlib & Compression System
 # ============================================================
 class PolicyManager:
     """
-    负责：
-        - 管理 pipeline & controller（sync/async）
-        - 从 RLlib 训练模型抽取 backbone
-        - 按策略触发压缩
-        - 异步 swap
-        - 把 compiled_backbone 广播到所有 rollout workers
-
-    用法：
-        manager = PolicyManager(algo, compressors, CompileMode.SYNC, trigger_every=5)
+    Manages compression pipeline and model synchronization between training and inference.
+    
+    Responsibilities:
+        - Manages compression pipeline & controller (sync/async)
+        - Extracts backbone from RLlib training model
+        - Triggers compression based on policy
+        - Performs async model swapping
+        - Broadcasts compressed backbone to all rollout workers
+        - Handles Teacher-Student architecture for pruning
+    
+    Teacher-Student Architecture (for pruning):
+        - Teacher (Training model): Full unpruned model for learning
+        - Student (Inference model): Pruned model for fast rollout
+        - Masks are only applied to Student, keeping Teacher at full capacity
+    
+    Usage:
+        manager = PolicyManager(algo, compressors, CompileMode.ASYNC, trigger_every=5)
         manager.maybe_swap(epoch)
         meta = manager.maybe_trigger(epoch)
     """
@@ -50,7 +58,9 @@ class PolicyManager:
                  infer_output_index: int = 0,
                  compile_training_backbone: bool = False,
                  device: str = "cpu",
-                 async_warmup: bool = True):
+                 async_warmup: bool = True,
+                 min_epoch_before_compress: int = 0,
+                 prune_training_model: bool = False):
 
         self.algo = algo
         self.mode = mode
@@ -68,7 +78,8 @@ class PolicyManager:
         # compression policy
         self.policy = CompressionPolicy(
             trigger_every=trigger_every,
-            enable_diff_check=enable_diff_check
+            enable_diff_check=enable_diff_check,
+            min_epoch_before_compress=min_epoch_before_compress
         )
 
         # pipeline + controller
@@ -76,7 +87,7 @@ class PolicyManager:
         self.model_lock = threading.Lock()
         self.controller = CompressionController(self.pipeline, mode, self.model_lock)
 
-        # RLlib 的训练模型
+        # RLlib training model (Teacher in Teacher-Student architecture)
         self.train_model = self.algo.get_policy().model
 
         self.infer_output_index = infer_output_index
@@ -85,28 +96,75 @@ class PolicyManager:
             getattr(compressors[infer_output_index], "supports_weight_sync", False)
         )
 
-        # 当前 sampler 正在使用的“推理 backbone”
+        # Current inference backbone used by samplers (Student in Teacher-Student architecture)
         self.current_infer_model: Optional[Any] = None
 
-        # 记录最近一次压缩 metadata（latency 等）
+        # Metadata from most recent compression (latency, sparsity, etc.)
         self.last_meta: Optional[Dict[str, Any]] = None
 
         self._compile_training_backbone_flag = compile_training_backbone
         self._training_backbone_compiled = False
+        
+        # For Mask Pruning: Store current masks to reapply on workers
+        # Behavior controlled by prune_training_model flag:
+        #   False (Teacher-Student): masks ONLY on inference model (Student)
+        #   True (Both Pruned): masks on BOTH training and inference models
+        self._current_masks = None
+        self._prune_training_model = prune_training_model
+        
         if self._compile_training_backbone_flag:
             self._compile_training_backbone_once()
 
     # ------------------------------------------------------------------
-    # 广播 compiled_backbone 到 rollout workers
+    # Broadcast inference model to rollout workers
     # ------------------------------------------------------------------
-    def _broadcast_inference_model(self, model, warmup=False, update_only=False):
+    def _broadcast_inference_model(self, model, warmup=False, update_only=False, also_update_training=False):
         """
-        将给定 inference backbone 设置到所有 rollout worker 的 policy.model 中。
-        你的 CustomPolicyNet 需要实现 set_compiled_backbone()。
+        Broadcast the given inference backbone to all rollout workers.
+        
+        For pruning (Teacher-Student architecture):
+            - Masks are broadcast separately and reapplied on each worker
+            - This ensures register_hook persists on worker models
+            - Training model (Teacher) never receives masks
+        
+        Args:
+            model: Compressed/compiled inference model to broadcast
+            warmup: Whether to warmup compiled model on workers
+            update_only: Only update weights, don't replace entire model
+            also_update_training: Also update local worker's training backbone
+                                 (used for structure-changing compression like structure pruning)
+        
+        Note: Your CustomPolicyNet must implement set_compiled_backbone()
         """
         workers = self.algo.workers.remote_workers()
         state_dict = None
-        if update_only and model is not None:
+        serializable_model = model
+        
+        # ✅ Solution 2: Pass masks separately for reapplication on workers
+        # This is critical for pruning: hooks cannot be serialized, must be recreated
+        masks_to_apply = None
+        if hasattr(self, '_current_masks') and self._current_masks is not None:
+            # Convert masks to CPU tensors for serialization
+            masks_to_apply = {k: v.cpu() for k, v in self._current_masks.items()}
+            print(f"[PolicyManager] 📦 Preparing to broadcast {len(masks_to_apply)} pruning masks")
+        
+        # ✅ Fix: If model is torch.compile'd, only pass state_dict (avoid serialization failure)
+        if model is not None and hasattr(model, '_orig_mod'):
+            # This is a compiled model, extract state_dict
+            update_only = True
+            try:
+                state = model.state_dict()
+                state_dict = {k: (v.detach().cpu() if torch.is_tensor(v) else v)
+                              for k, v in state.items()}
+                serializable_model = None  # Don't pass compiled model object
+                if masks_to_apply:
+                    print(f"[PolicyManager] 🔧 Detected compiled+pruned model, using state_dict + masks")
+                else:
+                    print(f"[PolicyManager] 🔧 Detected compiled model, using state_dict for serialization")
+            except Exception as exc:
+                print(f"[PolicyManager] ⚠️ Failed to extract state_dict from compiled model: {exc}")
+                serializable_model = model._orig_mod  # Try using original model
+        elif update_only and model is not None:
             try:
                 state = model.state_dict()
                 state_dict = {k: (v.detach().cpu() if torch.is_tensor(v) else v)
@@ -125,10 +183,32 @@ class PolicyManager:
                         did_update = True
                     except Exception as exc:
                         print(f"[PolicyManager] ⚠️ update_only failed on worker, fallback to full swap: {exc}")
-                if not did_update and hasattr(policy.model, "set_compiled_backbone"):
-                    policy.model.set_compiled_backbone(model)
+                if not did_update and serializable_model is not None and hasattr(policy.model, "set_compiled_backbone"):
+                    policy.model.set_compiled_backbone(serializable_model)
                     if warmup and hasattr(policy.model, "warmup_compiled_backbone"):
                         policy.model.warmup_compiled_backbone()
+                
+                # ✅ Solution 2: Reapply masks on worker side
+                # Critical for pruning: This recreates masked weights on worker's model
+                # Use inference_only=True to avoid gradient hook overhead (workers never train!)
+                if masks_to_apply is not None:
+                    try:
+                        from compression.mask_prune_compressor import apply_masks_to_backbone
+                        # Get actual backbone (may be wrapped in compiled wrapper)
+                        backbone = policy.model.backbone
+                        if hasattr(backbone, '_orig_mod'):
+                            backbone = backbone._orig_mod
+                        # Apply masks - this will:
+                        # 1. Zero out masked weights
+                        # 2. Skip gradient hooks (inference_only=True) to avoid overhead
+                        # 
+                        # Key: inference_only=True gives ~2-3% speedup by skipping unnecessary hooks!
+                        # Rollout workers NEVER do backward passes, so hooks are pure overhead
+                        apply_masks_to_backbone(backbone, masks_to_apply, inference_only=True)
+                        # Note: Don't print per-worker to avoid log spam
+                    except Exception as exc:
+                        print(f"[PolicyManager] ⚠️ Failed to apply masks on worker: {exc}")
+                
                 return 1
             worker.foreach_policy(inner)
             return 1
@@ -136,8 +216,168 @@ class PolicyManager:
         if workers:
             ray.get([w.apply.remote(_set) for w in workers])
 
+        # 剪枝等结构变化的压缩：同时更新训练模型
+        if also_update_training and model is not None:
+            self._update_training_backbone(model)
+
         if not update_only:
-            print("[Broadcast] 📤 Inference backbone updated on all sampler workers.")
+            msg = "[Broadcast] 📤 Inference backbone updated on all sampler workers."
+            if also_update_training:
+                msg += " (Training backbone also updated)"
+            print(msg)
+
+    def _update_training_backbone(self, new_backbone):
+        """
+        Update training backbone on all workers (for structure-changing compression).
+        
+        Note: This is for STRUCTURE pruning, NOT mask pruning!
+        
+        For mask pruning (Teacher-Student):
+            - This method is NOT called
+            - Training model stays unchanged (full Teacher)
+            - Only inference model gets masked (Student)
+        
+        For structure pruning:
+            - This method IS called
+            - Both training and inference models change structure
+            - Needed to keep them synchronized for weight updates
+        
+        Key: Ensures training and inference models have same structure for weight sync
+        """
+        if new_backbone is None:
+            return
+        
+        try:
+            # 获取新 backbone 的实际模型（如果被 compile 包装了）
+            actual_backbone = getattr(new_backbone, "_orig_mod", new_backbone)
+            
+            # 获取 state_dict（用于同步到 remote workers）
+            backbone_state = actual_backbone.state_dict()
+            cpu_state = {k: (v.detach().cpu() if torch.is_tensor(v) else v)
+                        for k, v in backbone_state.items()}
+            
+            # 获取新模型的结构信息
+            new_structure = {
+                "in_dim": actual_backbone.hidden_layers[0].in_features if len(actual_backbone.hidden_layers) > 0 else None,
+                "num_outputs": actual_backbone.policy_head.out_features,
+                "hidden_dims": [layer.out_features for layer in actual_backbone.hidden_layers],
+                "use_residual": actual_backbone.use_residual,
+            }
+            
+            # 1. 更新 local worker
+            local_worker = self.algo.workers.local_worker()
+            local_policy = local_worker.get_policy()
+            
+            # 保存是否之前被编译过
+            was_compiled = hasattr(local_policy.model.backbone, "_orig_mod")
+            
+            # 创建新 backbone 的副本用于训练
+            import copy
+            training_backbone = copy.deepcopy(actual_backbone)
+            training_backbone.to(self.device)
+            
+            # 如果之前训练 backbone 被编译过，新的也编译
+            if was_compiled and self._compile_training_backbone_flag:
+                training_backbone = torch.compile(training_backbone, backend="inductor")
+            
+            # 替换 local backbone
+            local_policy.model.backbone = training_backbone
+            
+            # 更新元信息
+            local_policy.model.hidden_dims = new_structure["hidden_dims"]
+            
+            # 2. 更新所有 remote workers 的训练 backbone
+            workers = self.algo.workers.remote_workers()
+            
+            def _update_remote_training(worker):
+                def inner(policy, pid):
+                    # 重建 backbone
+                    from models.policy import PolicyBackbone
+                    new_bb = PolicyBackbone(
+                        new_structure["in_dim"],
+                        new_structure["num_outputs"],
+                        new_structure["hidden_dims"],
+                        new_structure["use_residual"]
+                    )
+                    new_bb.load_state_dict(cpu_state)
+                    
+                    # 替换
+                    policy.model.backbone = new_bb
+                    policy.model.hidden_dims = new_structure["hidden_dims"]
+                    return 1
+                
+                worker.foreach_policy(inner)
+                return 1
+            
+            if workers:
+                ray.get([w.apply.remote(_update_remote_training) for w in workers])
+            
+            # 3. 关键：重置优化器状态（避免维度不匹配）
+            self._reset_optimizer_after_prune()
+            
+            print(f"[PolicyManager] 🔄 Training backbone updated: {new_structure['hidden_dims']}")
+            
+        except Exception as exc:
+            import traceback
+            print(f"[PolicyManager] ⚠️ Failed to update training backbone: {exc}")
+            traceback.print_exc()
+    
+    def _reset_optimizer_after_prune(self):
+        """
+        剪枝后重置优化器状态
+        
+        关键：剪枝改变了模型维度，优化器的 momentum/variance 等状态会维度不匹配
+        必须重置！
+        """
+        try:
+            local_worker = self.algo.workers.local_worker()
+            local_policy = local_worker.get_policy()
+            
+            # 调试：检查优化器结构
+            print(f"[PolicyManager] 🔍 Checking optimizer...")
+            print(f"  hasattr _optimizer: {hasattr(local_policy, '_optimizer')}")
+            print(f"  hasattr _optimizers: {hasattr(local_policy, '_optimizers')}")
+            
+            # RLlib 的优化器可能在不同的属性中
+            optimizer_to_reset = None
+            lr = 5e-5  # 默认学习率
+            
+            # 尝试多种可能的优化器位置
+            if hasattr(local_policy, "_optimizer") and local_policy._optimizer is not None:
+                if isinstance(local_policy._optimizer, tuple):
+                    optimizer_to_reset = local_policy._optimizer[0]
+                else:
+                    optimizer_to_reset = local_policy._optimizer
+            elif hasattr(local_policy, "_optimizers") and local_policy._optimizers:
+                # 有些 RLlib 版本用 _optimizers (list)
+                optimizer_to_reset = local_policy._optimizers[0]
+            
+            if optimizer_to_reset is not None:
+                # 获取学习率
+                if hasattr(optimizer_to_reset, 'param_groups'):
+                    lr = optimizer_to_reset.param_groups[0]['lr']
+                
+                # 重新初始化优化器
+                import torch.optim as optim
+                new_optimizer = optim.Adam(local_policy.model.parameters(), lr=lr)
+                
+                # 替换
+                if hasattr(local_policy, "_optimizer"):
+                    if isinstance(local_policy._optimizer, tuple):
+                        local_policy._optimizer = (new_optimizer, local_policy._optimizer[1])
+                    else:
+                        local_policy._optimizer = new_optimizer
+                elif hasattr(local_policy, "_optimizers"):
+                    local_policy._optimizers[0] = new_optimizer
+                
+                print(f"[PolicyManager] ✅ Optimizer reset with lr={lr}")
+            else:
+                print(f"[PolicyManager] ⚠️ No optimizer found to reset")
+            
+        except Exception as exc:
+            import traceback
+            print(f"[PolicyManager] ⚠️ Failed to reset optimizer: {exc}")
+            traceback.print_exc()
 
     # ------------------------------------------------------------------
     # 异步模式：在每个 epoch 开头尝试 swap（若异步线程已完成）
@@ -159,8 +399,20 @@ class PolicyManager:
 
         warmup = (self.mode == CompileMode.ASYNC and self.async_warmup)
         update_only = self._should_update_only(meta)
+        
+        # 调试已禁用（避免刷屏）
+        # print(f"[DEBUG] maybe_swap: meta keys = {list(meta.keys()) if meta else None}")
+        
+        # 检测是否是结构变化的压缩（如剪枝）
+        also_update_training = self._is_structure_changing_compression(meta)
+        
         t0 = time.time()
-        self._broadcast_inference_model(infer_model, warmup=warmup and not update_only, update_only=update_only)
+        self._broadcast_inference_model(
+            infer_model, 
+            warmup=warmup and not update_only, 
+            update_only=update_only,
+            also_update_training=also_update_training
+        )
         swap_latency = time.time() - t0
         if meta is None:
             meta = {}
@@ -173,6 +425,8 @@ class PolicyManager:
         """
         将训练模型最新的 backbone 权重同步到已存在的推理 backbone。
         仅对支持纯权重更新的压缩器（例如 compile）启用。
+        
+        注意：对于 Mask Pruning，需要在同步后重新应用mask！
         """
         if not self._supports_weight_sync:
             return
@@ -183,8 +437,16 @@ class PolicyManager:
         if snapshot is None:
             return
 
+        # 检查结构是否一致（剪枝会改变结构）
+        if not self._check_structure_match(snapshot):
+            # 结构不匹配，跳过同步（等待异步压缩完成）
+            return
+
         # 先更新本地推理模型，避免下一次广播仍旧是旧权重
         self._load_state_into_infer(snapshot)
+        
+        # Mask pruning 特殊处理：重新应用mask
+        self._reapply_masks_after_weight_sync()
 
         workers = self.algo.workers.remote_workers()
         if not workers:
@@ -224,7 +486,13 @@ class PolicyManager:
             self.last_meta = meta
 
             update_only = self._should_update_only(meta)
-            self._broadcast_inference_model(infer_model, warmup=False, update_only=update_only)
+            also_update_training = self._is_structure_changing_compression(meta)
+            self._broadcast_inference_model(
+                infer_model, 
+                warmup=False, 
+                update_only=update_only,
+                also_update_training=also_update_training
+            )
             print("[SyncCompile] ✅ Compiled & swapped immediately.")
             return meta
 
@@ -262,6 +530,203 @@ class PolicyManager:
         if not info:
             return False
         return bool(info.get("reused"))
+    
+    def _is_structure_changing_compression(self, meta: Optional[Dict[str, Any]]) -> bool:
+        """
+        Detect if compression changes model structure and handle pruning modes.
+        
+        🎓 Two Pruning Modes (controlled by prune_training_model flag):
+        ============================================================
+        
+        Mode 1: Teacher-Student (prune_training_model=False)
+        --------------------------------------------------------
+        Teacher (Training model):
+            - Remains FULL and UNPRUNED
+            - Used for policy updates (backward pass)
+            - High learning capacity
+        
+        Student (Inference model):
+            - PRUNED with masks applied
+            - Used for rollout (forward pass only)
+            - Fast inference
+        
+        Why this works:
+            - Training on full model: Better learning, no capacity loss
+            - Inference with pruned model: Faster data collection
+            - Best of both worlds!
+        
+        Mode 2: Both Pruned (prune_training_model=True)
+        --------------------------------------------------------
+        Both training AND inference models are pruned:
+            - Strictly on-policy (no distribution mismatch)
+            - Trains on reduced capacity (may hurt learning)
+            - Faster training and inference
+            - Pure on-policy RL (matches standard RL theory)
+        
+        Returns:
+            False for mask pruning (doesn't change structure)
+            True for structure pruning (changes model dimensions)
+        """
+        if not meta:
+            return False
+        
+        # ✅ Iterate through all compressor info in meta
+        # This captures outputs from all compressors in pipeline
+        for comp_name, info in meta.items():
+            if not isinstance(info, dict):
+                continue
+            
+            compression_type = info.get("type", "")
+            
+            # ✅ Mask Pruning: Check prune_training_model flag
+            if "mask_prune" in compression_type.lower():
+                masks = info.get("masks")
+                if masks is not None:
+                    self._current_masks = masks
+                    sparsity = info.get('actual_sparsity', 0) * 100
+                    
+                    # Check prune_training_model flag
+                    if self._prune_training_model:
+                        # Mode 2: Both Pruned (on-policy)
+                        print(f"[PolicyManager] 🔥 Both Pruned mode:")
+                        print(f"                🎯 Training: Pruned model (sparsity: {sparsity:.1f}%)")
+                        print(f"                🎯 Inference: Pruned model (sparsity: {sparsity:.1f}%)")
+                        # Apply masks to training model
+                        self._apply_masks_to_training(masks)
+                    else:
+                        # Mode 1: Teacher-Student (default)
+                        print(f"[PolicyManager] 🎓 Teacher-Student mode:")
+                        print(f"                📚 Teacher (Training): Full model (no pruning)")
+                        print(f"                🎯 Student (Inference): Pruned model (sparsity: {sparsity:.1f}%)")
+                
+                return False  # Mask pruning doesn't change structure
+            
+            # Structure Pruning: Actually changes model dimensions
+            if "structure_prune" in compression_type.lower():
+                return True
+        
+        return False
+    
+    def _apply_masks_to_training(self, masks: Dict[str, torch.Tensor]):
+        """
+        Apply masks to training model (for "Both Pruned" mode)
+        
+        This is ONLY called when prune_training_model=True
+        
+        In "Both Pruned" mode:
+            - Training and inference models both use pruned weights
+            - Strictly on-policy (no Teacher-Student distribution mismatch)
+            - Trains on reduced capacity
+        
+        In "Teacher-Student" mode (default):
+            - This method is NOT called
+            - Training model stays full
+            - Only inference model is pruned
+        """
+        if masks is None:
+            return
+        
+        try:
+            from compression.mask_prune_compressor import apply_masks_to_backbone
+            
+            # Get local training model
+            local_worker = self.algo.workers.local_worker()
+            local_policy = local_worker.get_policy()
+            training_backbone = local_policy.model.backbone
+            
+            # Unwrap if compiled
+            if hasattr(training_backbone, '_orig_mod'):
+                training_backbone = training_backbone._orig_mod
+            
+            # Apply masks with hooks (training model needs gradient masking)
+            apply_masks_to_backbone(training_backbone, masks, inference_only=False)
+            
+            # Also apply to all remote workers
+            workers = self.algo.workers.remote_workers()
+            if workers:
+                def _apply_to_worker(worker):
+                    def inner(policy, pid):
+                        try:
+                            backbone = policy.model.backbone
+                            if hasattr(backbone, '_orig_mod'):
+                                backbone = backbone._orig_mod
+                            from compression.mask_prune_compressor import apply_masks_to_backbone
+                            # inference_only=False because these are training workers
+                            apply_masks_to_backbone(backbone, masks, inference_only=False)
+                        except Exception as exc:
+                            print(f"[PolicyManager] ⚠️ Failed to apply training masks on worker: {exc}")
+                        return 1
+                    worker.foreach_policy(inner)
+                    return 1
+                
+                ray.get([w.apply.remote(_apply_to_worker) for w in workers])
+            
+            # Verify masks were applied by checking actual sparsity
+            actual_sparsity = self._check_training_model_sparsity()
+            print(f"[PolicyManager] ✅ Masks applied to training model (Both Pruned mode)")
+            print(f"[PolicyManager] 📊 Training model sparsity verified: {actual_sparsity*100:.1f}%")
+            
+        except Exception as exc:
+            import traceback
+            print(f"[PolicyManager] ⚠️ Failed to apply masks to training model: {exc}")
+            traceback.print_exc()
+    
+    def _check_training_model_sparsity(self) -> float:
+        """Check actual sparsity of training model weights (for diagnostics)"""
+        try:
+            local_worker = self.algo.workers.local_worker()
+            local_policy = local_worker.get_policy()
+            backbone = local_policy.model.backbone
+            
+            if hasattr(backbone, '_orig_mod'):
+                backbone = backbone._orig_mod
+            
+            total_params = 0
+            zero_params = 0
+            for layer in backbone.hidden_layers:
+                weight = layer.weight.data
+                total_params += weight.numel()
+                zero_params += (weight.abs() < 1e-8).sum().item()
+            
+            return zero_params / total_params if total_params > 0 else 0.0
+        except Exception:
+            return 0.0
+    
+    def _reapply_masks_after_weight_sync(self):
+        """
+        Reapply masks after weight synchronization.
+        
+        Why this is needed:
+            - When we sync weights from training model (Teacher) to inference model (Student)
+            - The sync operation (push_weight_update) overwrites ALL weights
+            - This includes masked weights, which get restored to non-zero values
+            - We must reapply masks to keep inference model pruned
+        
+        Critical: This is ONLY for inference model (Student)
+            - Training model (Teacher) NEVER gets masked (unless prune_training_model=True)
+            - This maintains Teacher-Student separation
+        """
+        if not hasattr(self, '_current_masks') or self._current_masks is None:
+            return  # No masks to apply, skip
+        
+        try:
+            from compression.mask_prune_compressor import apply_masks_to_backbone
+            
+            # Get inference model (Student)
+            infer_model = self.current_infer_model
+            if hasattr(infer_model, "_orig_mod"):
+                infer_model = infer_model._orig_mod
+            
+            # ✅ Apply masks ONLY to inference model (Student)
+            # Use inference_only=True to skip hooks (inference model doesn't train)
+            apply_masks_to_backbone(infer_model, self._current_masks, inference_only=True)
+            
+            # ❌ DON'T apply to training model! Training model stays full (Teacher)
+            # Unless prune_training_model=True, in which case it's handled separately
+            
+        except Exception as exc:
+            # Fail silently - don't crash training
+            pass
 
     def _snapshot_train_backbone(self):
         bb = getattr(self.train_model, "backbone", None)
@@ -271,6 +736,41 @@ class PolicyManager:
             k: v.detach().cpu().clone()
             for k, v in bb.state_dict().items()
         }
+
+    def _check_structure_match(self, train_state_dict):
+        """
+        检查训练模型和推理模型的结构是否一致
+        
+        如果不一致（例如剪枝后），返回 False
+        """
+        if self.current_infer_model is None:
+            return True
+        
+        try:
+            # 获取推理模型的 state_dict
+            infer_model = self.current_infer_model
+            if hasattr(infer_model, "_orig_mod"):
+                infer_model = infer_model._orig_mod
+            
+            infer_state_dict = infer_model.state_dict()
+            
+            # 检查关键层的形状
+            for key in train_state_dict.keys():
+                if key not in infer_state_dict:
+                    return False
+                
+                train_shape = train_state_dict[key].shape
+                infer_shape = infer_state_dict[key].shape
+                
+                if train_shape != infer_shape:
+                    # 结构不匹配（可能是剪枝导致）
+                    return False
+            
+            return True
+            
+        except Exception:
+            # 出错时保守处理，认为不匹配
+            return False
 
     def _load_state_into_infer(self, snapshot: Dict[str, Any]):
         if self.current_infer_model is None:
