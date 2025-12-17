@@ -216,15 +216,23 @@ class Trainer:
             reward_mean = rollout_reward_mean
 
         # Extract sparsity info from compression meta
+        # Search through ALL compressors (not just infer_output_index)
+        # This handles prune+compile pipelines where sparsity is in MaskPruneCompressor
         sparsity = None
-        if meta_swap and compressor_name:
-            info = meta_swap.get(compressor_name)
-            if info and "actual_sparsity" in info:
-                sparsity = info["actual_sparsity"]
-        if sparsity is None and meta_trigger and compressor_name:
-            info = meta_trigger.get(compressor_name)
-            if info and "actual_sparsity" in info:
-                sparsity = info["actual_sparsity"]
+        
+        # Try meta_swap first
+        if meta_swap:
+            for comp_name, info in meta_swap.items():
+                if isinstance(info, dict) and "actual_sparsity" in info:
+                    sparsity = info["actual_sparsity"]
+                    break
+        
+        # Fallback to meta_trigger
+        if sparsity is None and meta_trigger:
+            for comp_name, info in meta_trigger.items():
+                if isinstance(info, dict) and "actual_sparsity" in info:
+                    sparsity = info["actual_sparsity"]
+                    break
         
         rec = {
             "epoch": epoch,

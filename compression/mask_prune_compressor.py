@@ -190,13 +190,12 @@ class MaskPruneCompressor(BaseCompressor):
         
         # 2. Calculate target sparsity (iterative vs oneshot)
         if self.schedule == "iterative":
-            # Gradually increase sparsity (complete in prune_steps steps)
+            # Iterative pruning: Linear schedule from 0% to target sparsity
+            # Formula: sparsity = ratio * (step / total_steps)
+            # This ensures linear, additive pruning
             self._pruning_step += 1
-            step_size = self.prune_ratio / self.prune_steps
-            target_sparsity = min(
-                self._pruning_step * step_size,
-                self.prune_ratio
-            )
+            capped_step = min(self._pruning_step, self.prune_steps)
+            target_sparsity = self.prune_ratio * (capped_step / self.prune_steps)
         else:
             # Prune to target in one shot
             target_sparsity = self.prune_ratio

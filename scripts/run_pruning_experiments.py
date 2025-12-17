@@ -178,6 +178,7 @@ def build_compressors(exp_conf, device, hparams):
                     diff_threshold=hparams.get("prune_diff_threshold", 1e-3),
                     technique=hparams.get("prune_technique", "magnitude"),
                     schedule=hparams.get("prune_schedule", "iterative"),
+                    prune_steps=hparams.get("prune_steps", 5),
                 )
             )
         elif name == "prune+compile":
@@ -189,6 +190,7 @@ def build_compressors(exp_conf, device, hparams):
                     diff_threshold=hparams.get("prune_diff_threshold", 1e-3),
                     technique=hparams.get("prune_technique", "magnitude"),
                     schedule=hparams.get("prune_schedule", "iterative"),
+                    prune_steps=hparams.get("prune_steps", 5),
                 )
             )
             comps.append(
@@ -211,14 +213,14 @@ def main():
         "--experiment",
         type=str,
         default="basic",
-        choices=["basic", "ratios", "strategies", "freq", "sizes"],
+        choices=["basic", "ratios", "strategies", "freq", "sizes", "modes"],
         help="Experiment type to run"
     )
     parser.add_argument("--epochs", type=int, default=None, help="Number of training epochs (default: from config_pruning.py)")
     parser.add_argument("--hidden-dim", type=int, default=None, help="Hidden layer dimension (default: from config_pruning.py)")
     parser.add_argument("--hidden-depth", type=int, default=None, help="Number of hidden layers (default: from config_pruning.py)")
     parser.add_argument("--prune-ratio", type=float, default=None, help="Default pruning ratio (default: from config_pruning.py)")
-    parser.add_argument("--seed", type=int, default=43, help="Random seed")
+    parser.add_argument("--seed", type=int, default=41, help="Random seed")
     parser.add_argument("--device", type=str, default="cpu", help="Device (cpu or cuda:0)")
     parser.add_argument("--wandb", action="store_true", help="Enable Weights & Biases logging (overrides config)")
     parser.add_argument("--wandb-project", type=str, default="rllib-accelerator-pruning", help="W&B project name")
@@ -274,13 +276,20 @@ def main():
         if "_prune_ratio_override" in exp:
             exp_hparams["prune_ratio"] = exp["_prune_ratio_override"]
             print(f"  → Prune ratio: {exp_hparams['prune_ratio']}")
+        if "_prune_steps_override" in exp:
+            exp_hparams["prune_steps"] = exp["_prune_steps_override"]
+            actual_sparsity = exp.get("_actual_sparsity", 0)
+            print(f"  → Prune steps: {exp_hparams['prune_steps']} (target sparsity: {actual_sparsity*100:.1f}%)")
         if "_prune_strategy_override" in exp:
             exp_hparams["prune_strategy"] = exp["_prune_strategy_override"]
             print(f"  → Prune strategy: {exp_hparams['prune_strategy']}")
         if "_prune_training_model_override" in exp:
             exp_hparams["prune_training_model"] = exp["_prune_training_model_override"]
-            mode_name = "Both Pruned" if exp_hparams["prune_training_model"] else "Teacher-Student"
-            print(f"  → Pruning mode: {mode_name}")
+        
+        # Always print pruning mode for diagnostics (whether overridden or default)
+        mode_name = "Both Pruned" if exp_hparams.get("prune_training_model", False) else "Teacher-Student"
+        print(f"  → Pruning mode: {mode_name} (prune_training_model={exp_hparams.get('prune_training_model', False)})")
+        
         if "_hidden_dim_override" in exp:
             exp_hparams["hidden_dim"] = exp["_hidden_dim_override"]
             hidden_layers = [exp_hparams["hidden_dim"]] * exp_hparams["hidden_depth"]
@@ -321,6 +330,7 @@ def main():
                 "group": exp_hparams.get("wandb_group"),
                 "tags": exp_hparams.get("wandb_tags", []),
                 "prune_ratio": exp_hparams.get("prune_ratio"),
+                "prune_steps": exp_hparams.get("prune_steps"),
                 "prune_technique": exp_hparams.get("prune_technique"),
                 "prune_training_model": exp_hparams.get("prune_training_model"),
                 "hidden_dim": exp_hparams["hidden_dim"],
@@ -328,6 +338,8 @@ def main():
                 "trigger_every": trigger_every,
                 "seed": exp_hparams["seed"],
                 "compile_backend": exp_hparams.get("compile_backend"),
+                "target_sparsity": exp.get("_target_sparsity"),
+                "actual_sparsity": exp.get("_actual_sparsity"),
             },
             async_warmup=exp.get("async_warmup", False),
         )

@@ -104,6 +104,10 @@ class PolicyManager:
         self._current_masks = None
         self._prune_training_model = prune_training_model
         
+        # Diagnostic: Confirm pruning mode on initialization
+        mode_name = "Both Pruned (training+inference)" if self._prune_training_model else "Teacher-Student (inference only)"
+        print(f"[PolicyManager] 🔧 Initialized with prune_training_model={self._prune_training_model} ({mode_name})")
+        
         if self._compile_training_backbone_flag:
             self._compile_training_backbone_once()
 

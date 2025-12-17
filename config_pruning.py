@@ -17,7 +17,7 @@ from framework.policy_manager import CompileMode
 DEFAULT_HPARAMS = {
     # ========== Environment & Training ==========
     "env_id": "CartPole-v1",
-    "num_epochs": 100,              
+    "num_epochs": 150,              
     "train_batch_size": 4000,
     "lr": 1e-4,                     
     "seed": 42,
@@ -30,8 +30,11 @@ DEFAULT_HPARAMS = {
     "use_residual": True,
     
     # ========== Compression Timing ==========
-    "trigger_every": 15,             
-    "min_epoch_before_compress": 30, 
+    "trigger_every": 10,             
+    "min_epoch_before_compress": 20, 
+    # Note: With LINEAR iterative pruning (5 steps), full sparsity reached at:
+    # trigger_epochs = [20, 30, 40, 50, 60] → 15% by epoch 60
+    # Each step increases sparsity by: prune_ratio / prune_steps 
     
     # ========== Compile Settings ==========
     "compile_backend": "inductor",
@@ -44,7 +47,7 @@ DEFAULT_HPARAMS = {
     "prune_diff_threshold": 1e-3,    
     "prune_technique": "magnitude", 
     "prune_schedule": "iterative",   
-    "prune_steps": 15,                
+    "prune_steps": 5,                # Reduced from 10 to 5 for faster convergence                
     
     # ========== Pruning Mode ==========
     "prune_training_model": True,   # Both training and inference models are pruned
@@ -109,7 +112,7 @@ EXPERIMENTS_BASIC = [
         "name": "async_prune_compile",
         "mode": CompileMode.ASYNC,
         "compile_training_backbone": False,  
-        "trigger_every": 15,  # ✅ 每15个epoch触发一次剪枝+编译
+        "trigger_every": 15,  
         "enable_diff_check": False,     
         "compressors": ["prune+compile"],
         "async_warmup": True,
@@ -134,7 +137,11 @@ EXPERIMENTS_PRUNE_RATIOS = [
     },
 ]
 
-for ratio in [0.1, 0.2, 0.3, 0.4]:
+for ratio, steps in [(0.1, 5), (0.2, 5), (0.3, 3), (0.5, 2)]:
+    # Final sparsity = ratio (with LINEAR iterative pruning)
+    # Steps = how many compressions to reach it
+    # Formula: sparsity at step N = ratio * (N / steps)
+    
     EXPERIMENTS_PRUNE_RATIOS.append({
         "name": f"async_prune_compile_ratio={ratio:.1f}",
         "mode": CompileMode.ASYNC,
@@ -144,8 +151,11 @@ for ratio in [0.1, 0.2, 0.3, 0.4]:
         "compressors": ["prune+compile"],
         "async_warmup": True,
         "infer_output_index": -1,  
-        "_prune_ratio_override": ratio,
+        "_prune_ratio_override": ratio,      # Final target sparsity
+        "_prune_steps_override": steps,      # Number of steps to reach it
     })
+    print(f"[Config] Target Sparsity={ratio*100:.0f}%, Steps={steps}, "
+          f"Increment per step={(ratio/steps)*100:.1f}%")
 
 
 # ============================================================
@@ -207,73 +217,6 @@ for freq in [5, 10, 15, 20]:
     })
 
 
-# ============================================================
-# Experiment 5: Different Model Sizes Comparison
-# ============================================================
-EXPERIMENTS_MODEL_SIZES = [
-    {
-        "name": "baseline",
-        "mode": CompileMode.NONE,
-        "compile_training_backbone": False,
-        "trigger_every": 0,
-        "enable_diff_check": False,
-        "compressors": ["compile"],
-        "async_warmup": False,
-        "infer_output_index": -1,
-    },
-]
-
-for dim in [256, 512, 1024, 2048]:
-    EXPERIMENTS_MODEL_SIZES.append({
-        "name": f"async_prune_compile_dim={dim}",
-        "mode": CompileMode.ASYNC,
-        "compile_training_backbone": False,
-        "trigger_every": 15,
-        "enable_diff_check": False,
-        "compressors": ["prune+compile"],
-        "async_warmup": True,
-        "infer_output_index": -1,
-        "_hidden_dim_override": dim,
-    })
-
-
-# ============================================================
-# Experiment 6: Compare Teacher-Student vs Both Pruned
-# ============================================================
-EXPERIMENTS_PRUNING_MODES = [
-    {
-        "name": "baseline",
-        "mode": CompileMode.NONE,
-        "compile_training_backbone": False,
-        "trigger_every": 0,
-        "enable_diff_check": False,
-        "compressors": ["compile"],
-        "async_warmup": False,
-        "infer_output_index": -1,
-    },
-    {
-        "name": "prune_teacher_student",
-        "mode": CompileMode.ASYNC,
-        "compile_training_backbone": False,
-        "trigger_every": 15,
-        "enable_diff_check": False,
-        "compressors": ["prune+compile"],
-        "async_warmup": True,
-        "infer_output_index": -1,
-        "_prune_training_model_override": False,  # Teacher-Student mode
-    },
-    {
-        "name": "prune_both_pruned",
-        "mode": CompileMode.ASYNC,
-        "compile_training_backbone": False,
-        "trigger_every": 15,
-        "enable_diff_check": False,
-        "compressors": ["prune+compile"],
-        "async_warmup": True,
-        "infer_output_index": -1,
-        "_prune_training_model_override": True,  # Both Pruned mode
-    },
-]
 
 
 # ============================================================
