@@ -25,6 +25,9 @@ Key runtime controls live in `config.py`:
 ### Compile
 https://api.wandb.ai/links/mahm/6oytcqih
 
+### Quantization
+https://wandb.ai/gq2142-columbia-university/rllib-accelerator/reports/RL-Inference-Acceleration-Quantization--VmlldzoxNTQxOTUzMA
+
 ### Pruning
 https://api.wandb.ai/links/fm2859-columbia-university/shlmnaw0
 
