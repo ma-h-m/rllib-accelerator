@@ -30,11 +30,12 @@ https://api.wandb.ai/links/fm2859-columbia-university/shlmnaw0
 
 ## Results
 ### Compile
-(Fig: results/none&sync&async/timing_main.png)
+![Timing breakdown](results/none&sync&async/timing_main.png)
+
 Asynchronous compilation reduces steady-state iteration time by overlapping compilation with training. However, both sync and async compilation show early-epoch latency spikes due to first-inference overhead, which must be removed via warmup to achieve stable speedup.
 
 ### Quantization
-(Fig: results/compile&quant&baseline/quality_comparison_layer=4_dim=512/reward_compare.png)
+![Reward comparison](results/compile&quant&baseline/quality_comparison_layer=4_dim=512/reward_compare.png)
 Quantization accelerates inference but introduces a trade-off between speed and learning stability. High-frequency quantization leads to reward instability, while lower frequency improves stability at the cost of slower convergence.
 
 
