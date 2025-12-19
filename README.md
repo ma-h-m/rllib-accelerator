@@ -36,7 +36,9 @@ Asynchronous compilation reduces steady-state iteration time by overlapping comp
 
 ### Quantization
 ![Reward comparison](results/compile&quant&baseline/quality_comparison_layer=4_dim=512/reward_compare.png)
-Quantization accelerates inference but introduces a trade-off between speed and learning stability. High-frequency quantization leads to reward instability, while lower frequency improves stability at the cost of slower convergence.
+
+![Inference comparison](results/compile&quant&baseline/layer8_inference_time.png)
+Quantization accelerates inference but introduces a trade-off between speed and learning stability. High-frequency quantization leads to reward instability, while lower frequency improves stability at the cost of slower convergence. Acceleration for small model is moderate, but is more significant for lager models.
 
 
 ## Compression Modes
