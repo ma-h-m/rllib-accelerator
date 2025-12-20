@@ -1,10 +1,9 @@
 # RLlib Accelerator
 
 This repository contains the code used in our HPML project on accelerating RLlib
-training with PyTorch `torch.compile` and dynamic quantization. The project
+training with PyTorch `torch.compile` as well as model compression techniques (quantization and pruning). The project
 focuses on the CartPole-v1 benchmark and provides end-to-end tooling for
-benchmarking baseline PPO, synchronous compilation, asynchronous compilation
-(with/without warmup), and asynchronous quantization with warmup.
+benchmarking different acceleration techniques.
 
 ## Problem Statement
 
