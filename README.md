@@ -8,6 +8,8 @@ benchmarking baseline PPO, synchronous compilation, asynchronous compilation
 
 ## Quick Start
 
+### Compile & Quantization Experiments
+
 ```bash
 pip install -r requirements.txt          # include ray[rllib], torch>=2.1, matplotlib, wandb(optional)
 python main.py                           # run all experiments enumerated in config.py
@@ -21,24 +23,49 @@ Key runtime controls live in `config.py`:
   compressor list, trigger cadence, warmup flag, whether the training backbone
   should be compiled, and device requirements.
 
+### Pruning Experiments
+
+```bash
+# Run basic pruning experiments (baseline, compile, prune, prune+compile)
+python scripts/run_pruning_experiments.py --experiment basic --seed 43 --wandb --wandb-project your-project-name
+
+# Test different pruning ratios
+python scripts/run_pruning_experiments.py --experiment ratios --epochs 150
+
+# Plot results
+python scripts/plot_pruning_results.py --log-dir logs/pruning_basic
+```
+
+Key pruning controls live in `config_pruning.py`:
+
+- `prune_ratio`: Target sparsity (e.g., 0.15 for 15% pruning)
+- `prune_technique`: Pruning strategy (magnitude, random)
+- `prune_schedule`: Gradual pruning schedule (iterative)
+- `trigger_every`: Prune every N epochs
+
 ## wandb links
+
 ### Compile
+
 https://api.wandb.ai/links/mahm/6oytcqih
 
 ### Quantization
+
 https://wandb.ai/gq2142-columbia-university/rllib-accelerator/reports/RL-Inference-Acceleration-Quantization--VmlldzoxNTQxOTUzMA
 
 ### Pruning
+
 https://api.wandb.ai/links/fm2859-columbia-university/shlmnaw0
 
 ## Results
+
 ### Compile
+
 ![Timing breakdown](results/none&sync&async/timing_main.png)
 
 Asynchronous compilation reduces steady-state iteration time by overlapping compilation with training. However, both sync and async compilation show early-epoch latency spikes due to first-inference overhead, which must be removed via warmup to achieve stable speedup.
 
 ### Quantization
-
 
 <img width="759" height="251" alt="Screenshot 2025-12-19 at 3 33 50 PM" src="https://github.com/user-attachments/assets/5679a81d-6c3c-4220-b11d-c583d9d0d008" />
 
@@ -46,16 +73,21 @@ Asynchronous compilation reduces steady-state iteration time by overlapping comp
 
 - Speedup
   - Model size
-      - Large dimensions: desirable
-      - Small dimensions: limited
-  - Hardware specific   
-      - CPU 2.5X: dynamic quantization
-      - GPU 3.3X: weight-only quantization
+    - Large dimensions: desirable
+    - Small dimensions: limited
+  - Hardware specific
+    - CPU 2.5X: dynamic quantization
+    - GPU 3.3X: weight-only quantization
 - Reward
-  - Weight-only quantization exhibits the most stable training behavior 
+  - Weight-only quantization exhibits the most stable training behavior
   - Dynamic quantization accelerates inference but introduces a trade-off between speed and learning stability.
     - High-frequency quantization leads to reward instability, while lower frequency improves stability at the cost of slower convergence. Acceleration for small model is moderate, but is more significant for lager models.
 
+### Pruning
+
+![Pruning Reward Comparison](logs/pruning_basic_final/reward_comparison.png)
+
+Combining pruning with torch.compile (async_prune_compile) achieves the best performance gains with 3.4% higher throughput and 7.8% faster inference time, demonstrating that these techniques complement each other effectively. However, pruning introduces a reward trade-off, with pure pruning showing 4.6% degradation and pruning+compile showing 3.5% degradation compared to baseline, suggesting the 15% sparsity level moderately impacts learning capacity.
 
 ## Compression Modes
 
@@ -101,11 +133,9 @@ rollout workers.
   (`warmup_compiled_backbone()`) so that PyTorch captures the graph before real
   rollouts. This hides the first-iteration compilation overhead.
 
-
-### 3. Quantization 
+### 3. Quantization
 
 <img width="601" height="146" alt="Screenshot 2025-12-19 at 3 39 14 PM" src="https://github.com/user-attachments/assets/1f320ecb-0d70-49ff-acbd-353753ece667" />
-
 
 #### Async Quant with Warmup
 
@@ -126,6 +156,22 @@ rollout workers.
 - Quantizes both weights and activations and generates a TensorRT execution engine.
 - Not evaluated in this study due to unavailable hardware configuration and calibration tooling.
 
+### 4. Pruning
+
+#### Async Prune with Warmup
+
+- `compressors = ["prune"]` (magnitude-based structured pruning).
+- Applies mask-based pruning to gradually remove weights based on magnitude criterion.
+- Supports configurable pruning ratios (e.g., 15% sparsity), iterative pruning schedules, and both training/inference model pruning.
+- Pruning is applied asynchronously with configurable trigger frequency (e.g., every 15 epochs).
+- `async_warmup=True` ensures smooth transition when pruned models are swapped to workers.
+
+#### Async Prune + Compile
+
+- Combines pruning with torch.compile for maximum inference acceleration.
+- The pruned model structure is compiled using `torch.compile` to optimize execution.
+- Achieves best throughput gains by reducing model size (pruning) and optimizing execution graph (compile).
+- Configuration controlled via `config_pruning.py` with parameters like `prune_ratio`, `prune_technique`, `prune_schedule`, and `trigger_every`.
 
 ## Benchmark & Plot Scripts
 
@@ -164,153 +210,3 @@ rollout workers.
 - As of this implementation, we focus on CPU rollouts. Training can optionally
   run on GPU; compilation/quantization pipelines run on whichever device the
   backbone resides.
-
-## Pruning Experiments
-
-This repository includes comprehensive pruning experiments that combine **mask-based pruning** with **torch.compile** acceleration. Pruning reduces model size and inference cost while maintaining training quality.
-
-### Quick Start
-
-```bash
-# Make sure wandb is installed in your environment
-conda activate rllib-env  # or your target environment
-pip install wandb
-
-# Run basic pruning experiments
-python scripts/run_pruning_experiments.py --experiment basic --seed 43 --wandb --wandb-project your-project-name
-```
-
-### Pruning Modes
-
-The pruning system supports two distinct training architectures:
-
-#### 1. Both Pruned Mode (`prune_training_model=True`)
-
-- **Training model**: Pruned
-- **Inference model**: Pruned (same masks applied)
-- Both training and inference use the pruned structure
-- More memory efficient but may impact learning capacity
-- Fully on-policy: training and inference use identical pruned weights
-
-### Configuration
-
-All pruning hyperparameters are defined in `config_pruning.py`:
-
-```python
-DEFAULT_HPARAMS = {
-    # Pruning settings
-    "prune_ratio": 0.15,              # Target sparsity (15% of weights pruned)
-    "prune_technique": "magnitude",    # Pruning strategy
-    "prune_schedule": "iterative",     # Gradual pruning over time
-    "prune_steps": 15,                 # Number of pruning steps
-    "prune_training_model": True,      # Both Pruned vs Teacher-Student
-
-    # Compression timing
-    "trigger_every": 15,               # Prune every N epochs
-    "min_epoch_before_compress": 30,   # Wait before first pruning
-
-    # Model architecture
-    "hidden_dim": 256,
-    "hidden_depth": 4,
-
-    # Wandb logging
-    "use_wandb": True,
-    "wandb_project": "rllib-accelerator",
-    ...
-}
-```
-
-### Available Experiments
-
-Run different experiment types with the `--experiment` flag:
-
-| Experiment Type | Description                                        | Command                   |
-| --------------- | -------------------------------------------------- | ------------------------- |
-| `basic`         | Compare baseline, compile, prune, prune+compile    | `--experiment basic`      |
-| `ratios`        | Test different pruning ratios (0.1, 0.2, 0.3, 0.4) | `--experiment ratios`     |
-| `strategies`    | Compare magnitude vs. random pruning               | `--experiment strategies` |
-| `freq`          | Test different trigger frequencies (5, 10, 15, 20) | `--experiment freq`       |
-| `sizes`         | Test across model sizes (256, 512, 1024, 2048)     | `--experiment sizes`      |
-
-### Example Commands
-
-```bash
-# Basic comparison with wandb logging
-python scripts/run_pruning_experiments.py \
-    --experiment basic \
-    --seed 43 \
-    --wandb \
-    --wandb-project rllib-accelerator
-
-# Test different pruning ratios
-python scripts/run_pruning_experiments.py \
-    --experiment ratios \
-    --epochs 150 \
-    --seed 42
-
-# Custom configuration
-python scripts/run_pruning_experiments.py \
-    --experiment basic \
-    --epochs 200 \
-    --hidden-dim 512 \
-    --hidden-depth 6 \
-    --prune-ratio 0.2
-```
-
-### Plotting Results
-
-After running experiments, plot the results:
-
-```bash
-python scripts/plot_pruning_results.py --log-dir logs/pruning_basic
-```
-
-This generates comparison plots for:
-
-- Reward curves across experiments
-- Inference time comparison
-- Throughput comparison
-- Sparsity progression
-
-### Implementation Details
-
-- **Mask-based pruning**: Uses forward hooks to zero out pruned weights without changing model structure
-- **Iterative pruning**: Gradually increases sparsity over multiple compression steps
-- **Async architecture**: Pruning happens in background thread, doesn't block training
-- **Compile integration**: Pruned models are torch.compile'd for additional speedup
-- **Weight synchronization**: Training model weights are continuously synced to inference model
-- **Mask broadcasting**: Pruning masks are efficiently broadcast to all rollout workers
-
-## Teacher–Student Training Prototype
-
-For experiments where a lightweight “student” policy interacts with the
-environment while a much larger “teacher” policy trains on the same trajectories,
-use the standalone script below (it does not touch the compile/quant pipeline):
-
-```bash
-python scripts/train_teacher_student.py \
-    --env-id CartPole-v1 \
-    --num-epochs 300 \
-    --student-hidden-dim 64 --student-hidden-depth 2 \
-    --teacher-hidden-dim 1024 --teacher-hidden-depth 6
-```
-
-Key CLI flags let you control student/teacher model sizes, learning rates,
-rollout batch sizes, and the device the teacher trains on. Internally the script
-uses RLlib PPO for the student (to generate data) and applies a PPO-style update
-to the teacher backbone with the exact same advantages/returns, so both models
-improve simultaneously without modifying the existing `main.py` workflow.
-Each run writes per-epoch JSONL logs under `logs/teacher_student/`, matching the
-format used by the main trainer for easy comparison.
-
-To sweep over multiple student sizes automatically, run:
-
-```bash
-python scripts/run_teacher_student_grid.py \
-    --student-hidden-dims 64 128 256 \
-    --student-hidden-depths 2 4
-```
-
-The grid runner executes every dim/depth combination (sequentially, reusing
-other hyper-parameters from `teacher_student/config.py` or CLI overrides),
-logging each run under `logs/teacher_student/teacher_student_dim{N}_depth{M}_*.jsonl`.
